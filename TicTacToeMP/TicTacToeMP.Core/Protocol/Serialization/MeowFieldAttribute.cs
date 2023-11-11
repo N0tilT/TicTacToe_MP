@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace TicTacToeMP.Core.Protocol.Serialization
 {
+    /// <summary>
+    /// Класс атрибута сериализации пакета
+    /// </summary>
     [AttributeUsage(AttributeTargets.Field)]
     public class MeowFieldAttribute : Attribute
     {

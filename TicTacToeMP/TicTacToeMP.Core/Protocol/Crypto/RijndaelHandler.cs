@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace TicTacToeMP.Core.Protocol.Crypto
 {
+    /// <summary>
+    /// Класс-обработчик шифровки Риендаля
+    /// </summary>
     public static class RijndaelHandler
     {
         private const int Keysize = 256;

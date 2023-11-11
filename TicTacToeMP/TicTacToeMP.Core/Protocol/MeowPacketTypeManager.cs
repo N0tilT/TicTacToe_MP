@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace TicTacToeMP.Core.Protocol
 {
-    public class MeowPacketTypeManager
+    /// <summary>
+    /// Статический менеджер типов пакетов.
+    /// </summary>
+    public static class MeowPacketTypeManager
     {
+        /// <summary>
+        /// Словарь, где ключом выступает тип пакета, а значением пара байта типа и байта подтипа пакета
+        /// </summary>
         private static readonly Dictionary<MeowPacketType, Tuple<byte, byte>> TypeDictionary =
             new Dictionary<MeowPacketType, Tuple<byte, byte>>();
 
@@ -16,6 +22,13 @@ namespace TicTacToeMP.Core.Protocol
             RegisterType(MeowPacketType.Handshake, 1, 0);
         }
 
+        /// <summary>
+        /// Регистрация нового типа пакета
+        /// </summary>
+        /// <param name="type">тип пакета</param>
+        /// <param name="btype">байт подтипа пакета</param>
+        /// <param name="bsubtype">байт подтипа пакета</param>
+        /// <exception cref="Exception"></exception>
         public static void RegisterType(MeowPacketType type, byte btype, byte bsubtype)
         {
             if (TypeDictionary.ContainsKey(type))
@@ -26,7 +39,13 @@ namespace TicTacToeMP.Core.Protocol
             TypeDictionary.Add(type, Tuple.Create(btype, bsubtype));
         }
 
-        public static Tuple<byte, byte> GetType(MeowPacketType type)
+        /// <summary>
+        /// Получение информации о типе пакета
+        /// </summary>
+        /// <param name="type">тип пакета</param>
+        /// <returns>пара байтов типа и подтипа пакета</returns>
+        /// <exception cref="Exception"></exception>
+        public static Tuple<byte, byte> GetBytesOfType(MeowPacketType type)
         {
             if (!TypeDictionary.ContainsKey(type))
             {
@@ -36,6 +55,11 @@ namespace TicTacToeMP.Core.Protocol
             return TypeDictionary[type];
         }
 
+        /// <summary>
+        /// Получение типа пакета
+        /// </summary>
+        /// <param name="packet">пакет</param>
+        /// <returns>тип пакета</returns>
         public static MeowPacketType GetTypeFromPacket(MeowPacket packet)
         {
             var type = packet.PacketType;

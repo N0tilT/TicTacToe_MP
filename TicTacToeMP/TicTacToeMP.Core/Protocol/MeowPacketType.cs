@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace TicTacToeMP.Core.Protocol
 {
+    /// <summary>
+    /// Возможные типы пакетов
+    /// </summary>
     public enum MeowPacketType
     {
         Unknown,

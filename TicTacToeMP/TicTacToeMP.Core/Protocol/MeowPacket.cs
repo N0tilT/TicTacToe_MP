@@ -26,7 +26,15 @@ namespace TicTacToeMP.Core.Protocol
         /// Список полей пакета - данные
         /// </summary>
         public List<MeowPacketField> Fields { get; set; } = new List<MeowPacketField>();
+
+        /// <summary>
+        /// Флаг защищённости пакета
+        /// </summary>
         public bool Protected { get; set; }
+
+        /// <summary>
+        /// Флаг необходимости замены заголовка
+        /// </summary>
         private bool ChangeHeaders { get; set; }
 
         private MeowPacket() { }
@@ -39,7 +47,7 @@ namespace TicTacToeMP.Core.Protocol
         /// <returns>статичный пакет</returns>
         public static MeowPacket Create(MeowPacketType type)
         {
-            var t = MeowPacketTypeManager.GetType(type);
+            var t = MeowPacketTypeManager.GetBytesOfType(type);
             return Create(t.Item1, t.Item2);
         }
 
@@ -139,6 +147,12 @@ namespace TicTacToeMP.Core.Protocol
             field.Contents = bytes;
         }
 
+        /// <summary>
+        /// Геттер массива данных
+        /// </summary>
+        /// <param name="id">id свойства</param>
+        /// <returns>массив данных байтов</returns>
+        /// <exception cref="Exception"></exception>
         public byte[] GetValueRaw(byte id)
         {
             var field = GetField(id);
@@ -151,6 +165,12 @@ namespace TicTacToeMP.Core.Protocol
             return field.Contents;
         }
 
+        /// <summary>
+        /// Сеттер, принимающий массив данных
+        /// </summary>
+        /// <param name="id">id свойства</param>
+        /// <param name="rawData">массив данных</param>
+        /// <exception cref="Exception"></exception>
         public void SetValueRaw(byte id, byte[] rawData)
         {
             var field = GetField(id);
@@ -285,6 +305,7 @@ namespace TicTacToeMP.Core.Protocol
                 packet[1] != 0xAA ||
                 packet[2] != 0xAF)
             {
+                // Проверка защищённого пакета
                 if (packet[0] == 0x95 ||
                     packet[1] == 0xAA ||
                     packet[2] == 0xFF)
@@ -345,41 +366,60 @@ namespace TicTacToeMP.Core.Protocol
         #endregion
 
         #region PacketEncrypter
-        public static MeowPacket? EncryptPacket(MeowPacket packet)
-        {
-            if (packet == null)
-            {
-                return null; // Нам попросту нечего шифровать
-            }
 
-            var rawBytes = packet.ToPacket(); // получаем пакет в байтах
-            var encrypted = MeowProtocolEncryptor.Encrypt(rawBytes); // шифруем его
-
-            var p = Create(0, 0); // создаем пакет
-            p.SetValueRaw(0, encrypted); // записываем данные
-            p.ChangeHeaders = true; // помечаем, что нам нужен другой заголовок
-
-            return p;
-        }
-
+        /// <summary>
+        /// Шифровка пакета
+        /// </summary>
+        /// <returns>Зашифрованный квадрат</returns>
         public MeowPacket Encrypt()
         {
             return EncryptPacket(this);
         }
 
+        /// <summary>
+        /// Дешифровка пакета
+        /// </summary>
+        /// <returns>дешифрованный пакет</returns>
         public MeowPacket Decrypt()
         {
             return DecryptPacket(this);
         }
 
-        private static MeowPacket? DecryptPacket(MeowPacket packet)
+        /// <summary>
+        /// Шифровка пакета
+        /// </summary>
+        /// <param name="packet">пакет, который нужно зашифровать</param>
+        /// <returns>Пакет, содержащий зашифрованный пакет</returns>
+        public static MeowPacket? EncryptPacket(MeowPacket packet)
         {
-            if (!packet.HasField(0))
+            if (packet == null)
             {
-                return null; // Зашифрованные данные должны быть в 0 поле
+                return null;
             }
 
-            var rawData = packet.GetValueRaw(0); // получаем зашифрованный пакет
+
+            //Получаем пакет в байтах и шифруем его
+            var rawBytes = packet.ToPacket();
+            var encrypted = MeowProtocolEncryptor.Encrypt(rawBytes);
+
+            //Создаём новый пакет, оборачивающий зашифрованный и меняем его заголовок
+            var p = Create(0, 0);
+            p.SetValueRaw(0, encrypted);
+            p.ChangeHeaders = true; 
+
+            return p;
+        }
+
+        private static MeowPacket? DecryptPacket(MeowPacket packet)
+        {
+            //Зашифрованные данные располагаются в 0-м свойстве
+            if (!packet.HasField(0))
+            {
+                return null;
+            }
+
+            //Зашифрованный пакет расшифровывается и преобразовывается из массива байтов в пакет
+            var rawData = packet.GetValueRaw(0);
             var decrypted = MeowProtocolEncryptor.Decrypt(rawData);
 
             return Parse(decrypted, true);

@@ -66,7 +66,7 @@ namespace TicTacToeMP.Server.Core
             Console.WriteLine("Recieved handshake packet.");
 
             var handshake = MeowPacketConverter.Deserialize<MeowPacketHandshake>(packet);
-            handshake.MagicHandshakeNumber -= 15;
+            handshake.MagicHandshakeString += "  MEOW";
 
             Console.WriteLine("Answering..");
 

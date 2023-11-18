@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -96,9 +97,14 @@ namespace TicTacToeMP.Core.Protocol
         /// <param name="id">id искомого поля</param>
         /// <returns>Значение поля типа Т</returns>
         /// <exception cref="Exception"></exception>
-        public T GetValue<T>(byte id) where T : struct
+        public T GetValue<T>(byte id)
         {
             var field = GetField(id) ?? throw new Exception($"Field with ID {id} wasn't found.");
+
+            if (field.IsString == 1)
+            {
+                return (T)Convert.ChangeType(ByteArrayToString(field.Contents), typeof(T));
+            }
 
             var neededSize = Marshal.SizeOf(typeof(T));
             if (field.FieldSize != neededSize)
@@ -117,10 +123,6 @@ namespace TicTacToeMP.Core.Protocol
         /// <exception cref="Exception"></exception>
         public void SetValue(byte id, object structure)
         {
-            if (!structure.GetType().IsValueType)
-            {
-                throw new Exception("Only value types are available.");
-            }
 
             //Добавляем поле, если его нет в пакете
             var field = GetField(id);
@@ -134,9 +136,21 @@ namespace TicTacToeMP.Core.Protocol
 
                 Fields.Add(field);
             }
+            field.IsString = Convert.ToByte(false);
+
+            byte[] bytes;
+            if (!structure.GetType().IsValueType)
+            {
+                bytes = Encoding.UTF8.GetBytes(structure as string);
+
+                field.FieldSize = (byte)bytes.Length;
+                field.Contents = bytes;
+                field.IsString = Convert.ToByte(true);
+                return;
+            }
 
             //Устанавливаем размер поля и значение в виде массива байтов
-            var bytes = FixedObjectToByteArray(structure);
+            bytes = FixedObjectToByteArray(structure);
 
             if (bytes.Length > byte.MaxValue)
             {
@@ -202,8 +216,9 @@ namespace TicTacToeMP.Core.Protocol
         /// <typeparam name="T">Тип объекта</typeparam>
         /// <param name="bytes">массив байтов для преобразования</param>
         /// <returns>Объект указанного типа</returns>
-        private T ByteArrayToFixedObject<T>(byte[] bytes) where T : struct
+        private T ByteArrayToFixedObject<T>(byte[] bytes)
         {
+
             T structure;
 
             //Закрепляем массив байтов в памяти
@@ -222,6 +237,11 @@ namespace TicTacToeMP.Core.Protocol
             return structure;
         }
 
+        private string ByteArrayToString(byte[] bytes) 
+        {   
+            return Encoding.UTF8.GetString(bytes,0,bytes.Length);
+        }
+
         /// <summary>
         /// Преобразование объекта фиксированной длины в массив байтов
         /// </summary>
@@ -229,6 +249,11 @@ namespace TicTacToeMP.Core.Protocol
         /// <returns>массив байтов</returns>
         public byte[] FixedObjectToByteArray(object value)
         {
+            if(value.GetType() == typeof(string) && value != null)
+            {
+                return Encoding.UTF8.GetBytes(value as string);
+            }
+
             //Получаем размер нашего объекта из unmanaged кода
             var rawsize = Marshal.SizeOf(value);
             var rawdata = new byte[rawsize];
@@ -271,7 +296,7 @@ namespace TicTacToeMP.Core.Protocol
             // Записываем поля
             foreach (var field in fields)
             {
-                packet.Write(new[] { field.FieldID, field.FieldSize }, 0, 2);
+                packet.Write(new[] { field.FieldID, field.FieldSize, field.IsString }, 0, 3);
                 packet.Write(field.Contents, 0, field.Contents.Length);
             }
 
@@ -346,21 +371,23 @@ namespace TicTacToeMP.Core.Protocol
                 //Обрабатываем доступные поля
                 var fieldId = fields[0];
                 var fieldSize = fields[1];
+                var isString = fields[2];
 
                 //Читаем содержимое пакета байтов
                 var contents = fieldSize != 0 ?
-                    fields.Skip(2).Take(fieldSize).ToArray() : null;
+                    fields.Skip(3).Take(fieldSize).ToArray() : null;
 
                 //Записываем
                 meowPacket.Fields.Add(new MeowPacketField
                 {
                     FieldID = fieldId,
                     FieldSize = fieldSize,
+                    IsString = isString,
                     Contents = contents
                 });
 
                 //Переходим к следующему полю пакета байтов
-                fields = fields.Skip(2 + fieldSize).ToArray();
+                fields = fields.Skip(3 + fieldSize).ToArray();
             }
         }
         #endregion

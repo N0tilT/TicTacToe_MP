@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json;
 using System.Threading;
 using TicTacToeMP.Core.Protocol;
 using TicTacToeMP.Core.Protocol.Serialization;
@@ -8,7 +9,7 @@ namespace TicTacToeMP.Core.Test
 {
     internal class Program
     {
-        private static int _handshakeMagic;
+        private static string _handshakeMagic;
 
         private static void Main()
         {
@@ -19,8 +20,7 @@ namespace TicTacToeMP.Core.Test
             client.OnPacketRecieve += OnPacketRecieve;
             client.Connect("127.0.0.1", 4910);
 
-            var rand = new Random();
-            _handshakeMagic = rand.Next();
+            _handshakeMagic = "QWERTY";
 
             Thread.Sleep(1000);
 
@@ -31,7 +31,7 @@ namespace TicTacToeMP.Core.Test
                     MeowPacketType.Handshake,
                     new MeowPacketHandshake
                     {
-                        MagicHandshakeNumber = _handshakeMagic
+                        MagicHandshakeString = _handshakeMagic,
                     })
                     .ToPacket());
 
@@ -68,7 +68,7 @@ namespace TicTacToeMP.Core.Test
         {
             var handshake = MeowPacketConverter.Deserialize<MeowPacketHandshake>(packet);
 
-            if (_handshakeMagic - handshake.MagicHandshakeNumber == 15)
+            if (handshake.MagicHandshakeString == "QWERTY  MEOW")
             {
                 Console.WriteLine("Handshake meowful!");
             }

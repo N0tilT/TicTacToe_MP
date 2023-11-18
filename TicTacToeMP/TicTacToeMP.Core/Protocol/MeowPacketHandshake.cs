@@ -10,6 +10,6 @@ namespace TicTacToeMP.Core.Protocol
     public class MeowPacketHandshake
     {
         [MeowField(1)]
-        public int MagicHandshakeNumber;
+        public string MagicHandshakeString;
     }
 }

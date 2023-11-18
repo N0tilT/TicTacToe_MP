@@ -19,6 +19,12 @@ namespace TicTacToeMP.Core.Protocol
         /// Размер поля в байтах
         /// </summary>
         public byte FieldSize { get; set; }
+
+        /// <summary>
+        /// Является ли поле строкой
+        /// </summary>
+        public byte IsString { get; set; }
+
         /// <summary>
         /// Значение поля
         /// </summary>

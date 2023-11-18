@@ -7,7 +7,7 @@ namespace TicTacToeMP.Server
     {
         private static void Main()
         {
-            Console.Title = "XServer";
+            Console.Title = "MeowServer";
             Console.ForegroundColor = ConsoleColor.White;
 
             var server = new TicTacToeServer();

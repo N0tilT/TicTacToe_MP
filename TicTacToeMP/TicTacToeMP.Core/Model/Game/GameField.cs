@@ -107,21 +107,21 @@ namespace TicTacToeMP.Core.Model.Game
                         case 0://upper side
                             left = -1;
                             right = 1;
-                            bottom = (sbyte)(top - 8);
+                            bottom = (sbyte)((-1)*(top - 8));
                             break;
                         case 1://right side
-                            left = (sbyte)(right - 8); 
+                            left = (sbyte)((-1) * (right - 8)); 
                             top = -1;
                             bottom = 1;
                             break;
                         case 2://bottom side
                             left = 1;
-                            top = (sbyte)(bottom - 8);
+                            top = (sbyte)((-1) * (bottom - 8));
                             right = -1;
                             break;
                         case 3://left side
                             top = 1;
-                            right = (sbyte)(left - 8);
+                            right = (sbyte)((-1) * (left - 8));
                             bottom = -1;
                             break;
                     }

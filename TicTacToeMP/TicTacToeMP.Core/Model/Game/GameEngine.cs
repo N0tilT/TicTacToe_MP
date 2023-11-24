@@ -42,20 +42,25 @@ namespace TicTacToeMP.Core.Model.Game
             }
         }
 
-        public bool CheckWinner()
+        public void Place(int id, GameCellState state)
         {
-            int countElements = Field.Size * 4 - 4;
-            bool[] checkedFields = new bool[countElements];
-
-            for (int i = 0; i < countElements; i++)
+            if (Field.Field[id].State != GameCellState.Empty)
             {
-                checkedFields[i] = false;
+                throw new ArgumentException();
             }
-
-            for (int i = 0; i < countElements; i++)
+            switch (state)
             {
-                GameCellState currentCellState = Field.Field[i].State;
+                case GameCellState.Nought:
+                    Field.Field[id].SetNought();
+                    break;
+                case GameCellState.Cross:
+                    Field.Field[id].SetCross();
+                    break;
             }
+        }
+
+        public bool IsWinSignPlaced(int lastPlacedId)
+        {
 
             return false;
         }

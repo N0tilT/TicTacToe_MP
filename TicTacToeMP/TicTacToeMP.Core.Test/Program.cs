@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Security.Cryptography;
 using System.Text.Json;
 using System.Threading;
+using TicTacToeMP.Core.Model.Game;
 using TicTacToeMP.Core.Protocol;
 using TicTacToeMP.Core.Protocol.Serialization;
 using TicTacToeMP.Core.Test.Client;
@@ -12,6 +14,39 @@ namespace TicTacToeMP.Core.Test
         private static string _handshakeMagic;
 
         private static void Main()
+        {
+            //TestClient();
+            TestModel();
+        }
+
+        private static void TestModel()
+        {
+            GameField gameField = new GameField(LimitedFieldSize.ThreeByThree);
+            PrintField(gameField);
+
+            GameField gameField2 = new GameField(LimitedFieldSize.FiveByFive);
+            PrintField(gameField2);
+
+            GameField gameField3 = new GameField(LimitedFieldSize.TenByTen);
+            PrintField(gameField3);
+
+        }
+
+        private static void PrintField(GameField gameField)
+        {
+            Console.WriteLine("Field size: " + gameField.Size);
+            for (int i = 0;i< gameField.Field.Count;i++)
+            {
+                Console.WriteLine(i+":");
+                foreach (sbyte neighbour in gameField.Field[i].Neighbours)
+                {
+                    Console.Write(neighbour + " ");
+                }
+                Console.WriteLine();
+            }
+        }
+
+        private static void TestClient()
         {
             Console.Title = "MeowClient";
             Console.ForegroundColor = ConsoleColor.White;

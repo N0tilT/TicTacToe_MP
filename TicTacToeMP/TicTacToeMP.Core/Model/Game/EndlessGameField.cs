@@ -13,10 +13,6 @@ namespace TicTacToeMP.Core.Model.Game
 
         public void Grow()
         {
-            for (int i = 0; i < Size*4+4; i++)
-            {
-                _field.Add(new GameCell());
-            }
             Size += 2;
         }
     }

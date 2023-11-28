@@ -21,14 +21,17 @@ namespace TicTacToeMP.Core.Model.Game
         private static int counter = 0;
         private int _id;
         private GameCellState _state;
-        private sbyte[] _neighbours;
+        private int[] _neighbours;
+        private int index;
 
         public int ID { get { return _id; } }
         public GameCellState State { get { return _state; } set { _state = value; } }
-        public sbyte[] Neighbours { get { return _neighbours; } }
+        public int[] Neighbours { get { return _neighbours; } }
+
+        public int Index { get => index; set => index = value; }
 
 
-        public GameCell(sbyte[] neighbours)
+        public GameCell(int[] neighbours)
         {
             _id = counter++;
             State = GameCellState.Empty;

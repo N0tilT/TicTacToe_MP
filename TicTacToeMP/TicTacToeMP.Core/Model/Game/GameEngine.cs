@@ -91,7 +91,7 @@ namespace TicTacToeMP.Core.Model.Game
 
         public bool IsWinSignPlaced(int lastPlacedId)
         {
-            sbyte[] neighbours = Field.Field[lastPlacedId].Neighbours;
+            int[] neighbours = Field.Field[lastPlacedId].Neighbours;
             byte sum = 0;
             for (int i=0; i< 2; i++)
             {

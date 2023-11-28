@@ -21,10 +21,41 @@ namespace TicTacToeMP.Core.Test
 
         private static void TestModel()
         {
-            TestThreeByThree();
-            TestFiveByFive();
-            TestTenByTen();
+            //TestThreeByThree();
+            //TestFiveByFive();
+            //TestTenByTen();
+            TestIndex();
 
+        }
+
+        private static void TestIndex()
+        {
+            Console.WriteLine("3x3 Test:");
+            GameEngine engine = new GameEngine(GameMode.Limited, LimitedFieldSize.ThreeByThree);
+            for (int i = 0; i < engine.Field.Field.Count; i++)
+            {
+                Console.Write(engine.Field.Field[i].Index + " ");
+
+            }
+            Console.WriteLine();
+
+            Console.WriteLine("5x5 Test:");
+            GameEngine engine2 = new GameEngine(GameMode.Limited, LimitedFieldSize.FiveByFive);
+            for (int i = 0; i < engine2.Field.Field.Count; i++)
+            {
+                Console.Write(engine2.Field.Field[i].Index + " ");
+
+            }
+            Console.WriteLine();
+
+            Console.WriteLine("10x10 Test:");
+            GameEngine engine3 = new GameEngine(GameMode.Limited, LimitedFieldSize.TenByTen);
+            for (int i = 0; i < engine3.Field.Field.Count; i++)
+            {
+                Console.Write(engine3.Field.Field[i].Index + " ");
+
+            }
+            Console.WriteLine();
 
         }
         #region 3x3

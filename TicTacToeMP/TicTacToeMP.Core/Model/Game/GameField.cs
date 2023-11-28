@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Security.Principal;
 using System.Text;
@@ -66,7 +68,7 @@ namespace TicTacToeMP.Core.Model.Game
 
         public void Generate(int size)
         {
-            _field.Add(new GameCell(new sbyte[] { 5, 7, 1, 3 }));
+            _field.Add(new GameCell(new int[] { 5, 7, 1, 3 }));
             int rank = 1;
             int circleCounter = 0;
             int counter = 0;
@@ -146,9 +148,59 @@ namespace TicTacToeMP.Core.Model.Game
                 }
 
 
-                _field.Add(new GameCell(new sbyte[] { left, top, right, bottom }));
+                _field.Add(new GameCell(new int[] { left, top, right, bottom }));
 
             }
+
+            SetIndexes();
+        }
+
+        private void SetIndexes()
+        {
+            int currentUp = 0;
+            int currentDown = 0;
+            Field[currentUp].Index = Size * Size / 2;
+            for (int i = 0; i <= (Size - 1) / 2; i++)
+            {
+                SetRowIndexes(currentUp);
+                SetRowIndexes(currentDown);
+                if(currentUp + Field[currentUp].Neighbours[1] < Size * Size)
+                {
+                    Field[currentUp + Field[currentUp].Neighbours[1]].Index = Field[currentUp].Index - Size;
+                    currentUp += Field[currentUp].Neighbours[1];
+                }
+                if (currentDown + Field[currentDown].Neighbours[3] < Size * Size)
+                {
+                    Field[currentDown + Field[currentDown].Neighbours[3]].Index = Field[currentDown].Index + Size;
+                    currentDown += Field[currentDown].Neighbours[3];
+                }
+            }
+        }
+
+        private void SetRowIndexes(int start)
+        {
+            int currentLeft = start;
+            int currentRight = start;
+            for (int i = 0;i < (Size - 1) / 2;i++)
+            {
+                SetLeftIndex(currentLeft);
+                SetRightIndex(currentRight);
+                currentLeft += Field[currentLeft].Neighbours[0];
+                currentRight += Field[currentRight].Neighbours[2];
+            }
+
+        }
+
+        private void SetRightIndex(int current)
+        {
+            int leftNeighbour = current + Field[current].Neighbours[2];
+            Field[leftNeighbour].Index = Field[current].Index + 1;
+        }
+
+        private void SetLeftIndex(int current)
+        {
+            int leftNeighbour = current + Field[current].Neighbours[0];
+            Field[leftNeighbour].Index = Field[current].Index - 1;
         }
 
         public void Clear()

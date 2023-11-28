@@ -9,13 +9,16 @@ namespace TicTacToeMP.Core.Model.Game
 {
     public class GameField
     {
-        private int _size;
+        private int _size; 
+        protected int _winRowLength;
+
         public int Size { get { return _size; } set { _size = value; } }
 
         protected List<GameCell> _field;
         private LimitedFieldSize size;
 
-        public List<GameCell> Field { get { return _field; }}
+        public List<GameCell> Field { get { return _field; } }
+        public int WinRowLength { get { return _winRowLength; } }
 
         public GameField()
         {
@@ -23,6 +26,18 @@ namespace TicTacToeMP.Core.Model.Game
         }
         public GameField(int size) : this()
         {
+            if (size < 3)
+            {
+                throw new ArgumentException();
+            }
+            else if (size >= 5)
+            {
+                _winRowLength = 5;
+            }
+            else
+            {
+                _winRowLength = 3;
+            }
             Size = size;
             Generate(Size);
         }
@@ -33,14 +48,17 @@ namespace TicTacToeMP.Core.Model.Game
             {
                 case LimitedFieldSize.ThreeByThree:
                     Size = 3;
+                    _winRowLength = 3;
                     Generate(Size*Size);
                     break;
                 case LimitedFieldSize.FiveByFive:
                     Size = 5;
+                    _winRowLength=5;
                     Generate(Size*Size);
                     break;
                 case LimitedFieldSize.TenByTen:
                     Size = 10;
+                    _winRowLength = 5;
                     Generate(Size * Size);
                     break;
             }

@@ -10,6 +10,7 @@ namespace TicTacToeMP.Core.Model.Game
     {
         public EndlessGameField():base(3) {}
         public EndlessGameField(int size):base(size){ }
+        public EndlessGameField(LimitedFieldSize size) : base(size) { }
 
         public void Grow()
         {

@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace TicTacToeMP.Core.Model.Game
 {
+    public enum NeighbourPosition
+    {
+        Left, Right, Top, Bottom
+    }
     public enum GameCellState
     {
         Empty,
@@ -17,14 +21,18 @@ namespace TicTacToeMP.Core.Model.Game
         private static int counter = 0;
         private int _id;
         private GameCellState _state;
+        private sbyte[] _neighbours;
 
         public int ID { get { return _id; } }
         public GameCellState State { get { return _state; } set { _state = value; } }
+        public sbyte[] Neighbours { get { return _neighbours; } }
 
-        public GameCell()
+
+        public GameCell(sbyte[] neighbours)
         {
             _id = counter++;
             State = GameCellState.Empty;
+            _neighbours = neighbours;
         }
 
         public void SetCross()
@@ -38,6 +46,18 @@ namespace TicTacToeMP.Core.Model.Game
         public void SetEmpty()
         {
             State = GameCellState.Empty;
+        }
+
+        public int GetNeighbour(int cellId, NeighbourPosition neighbourPosition)
+        {
+            return neighbourPosition switch
+            {
+                NeighbourPosition.Left => cellId + _neighbours[0],
+                NeighbourPosition.Top => cellId + _neighbours[1],
+                NeighbourPosition.Right => cellId + _neighbours[2],
+                NeighbourPosition.Bottom => cellId + _neighbours[3],
+                _ => cellId + Neighbours[((int)neighbourPosition)],
+            };
         }
     }
 }

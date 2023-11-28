@@ -4,5 +4,53 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:TicTacToeMP.Client"
     StartupUri="MainWindow.xaml">
-    <Application.Resources />
+    <Application.Resources>
+        <ResourceDictionary>
+            <FontFamily x:Key="Handjet">pack://application:,,,/resources/fonts/#Handjet</FontFamily>
+            <ImageBrush x:Key="MainBack" ImageSource="Resources/background.png" />
+            <SolidColorBrush x:Key="PoleBack" Color="#9BB78FB5" />
+            <SolidColorBrush x:Key="Border" Color="#FFF" />
+            <SolidColorBrush x:Key="KuromiKvadrat" Color="#BE79C9" />
+            <SolidColorBrush x:Key="KuromiBorKvadrat" Color="#804D89" />
+            <ImageBrush x:Key="Kuromi" ImageSource="Resources/kuromi_Sign.png" />
+            <SolidColorBrush x:Key="MelodyKvadrat" Color="#F9A4CF" />
+            <SolidColorBrush x:Key="MelodyBorKvadrat" Color="#C67194" />
+            <ImageBrush x:Key="Melody" ImageSource="Resources/melody_Sign.png" />
+            <Style x:Key="BorderPole">
+                <Setter Property="Border.BorderBrush" Value="{StaticResource Border}" />
+                <Setter Property="Border.BorderThickness" Value="3" />
+            </Style>
+            <Style x:Key="Kuromi1">
+                <Setter Property="Rectangle.Fill" Value="{StaticResource KuromiKvadrat}" />
+                <Setter Property="Rectangle.Stroke" Value="{StaticResource KuromiBorKvadrat}" />
+                <Setter Property="Rectangle.RadiusX" Value="3.75" />
+                <Setter Property="Rectangle.RadiusY" Value="3.75" />
+                <Setter Property="Rectangle.StrokeThickness" Value="3" />
+            </Style>
+            <Style x:Key="Melody1">
+                <Setter Property="Rectangle.Fill" Value="{StaticResource MelodyKvadrat}" />
+                <Setter Property="Rectangle.Stroke" Value="{StaticResource MelodyBorKvadrat}" />
+                <Setter Property="Rectangle.RadiusX" Value="3.75" />
+                <Setter Property="Rectangle.RadiusY" Value="3.75" />
+                <Setter Property="Rectangle.StrokeThickness" Value="3" />
+            </Style>
+            <Style x:Key="Text">
+                <Setter Property="Label.FontFamily" Value="Handjet Square Single" />
+                <Setter Property="Label.FontSize" Value="25" />
+                <Setter Property="Label.Foreground" Value="#FFF" />
+                <Setter Property="Label.FontWeight" Value="Medium" />
+                <Setter Property="Label.VerticalAlignment" Value="Center" />
+                <Setter Property="Label.HorizontalAlignment" Value="Center" />
+            </Style>
+            <Style x:Key="Text1">
+                <Setter Property="Label.FontFamily" Value="Handjet Square Single" />
+                <Setter Property="Label.FontSize" Value="40" />
+                <Setter Property="Label.Foreground" Value="#FFF" />
+                <Setter Property="Label.FontWeight" Value="Medium" />
+                <Setter Property="Label.VerticalAlignment" Value="Stretch" />
+                <Setter Property="Label.HorizontalAlignment" Value="Stretch" />
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+
 </Application>

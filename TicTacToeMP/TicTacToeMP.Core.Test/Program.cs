@@ -49,7 +49,7 @@ namespace TicTacToeMP.Core.Test
             Console.WriteLine();
 
             Console.WriteLine("10x10 Test:");
-            GameEngine engine3 = new GameEngine(GameMode.Limited, LimitedFieldSize.TenByTen);
+            GameEngine engine3 = new GameEngine(GameMode.Limited, LimitedFieldSize.NineByNine);
             for (int i = 0; i < engine3.Field.Field.Count; i++)
             {
                 Console.Write(engine3.Field.Field[i].Index + " ");
@@ -216,7 +216,7 @@ namespace TicTacToeMP.Core.Test
         private static void TestTenByTen()
         {
             Console.WriteLine("10x10 Test:");
-            GameEngine engine = new GameEngine(GameMode.Limited, LimitedFieldSize.TenByTen);
+            GameEngine engine = new GameEngine(GameMode.Limited, LimitedFieldSize.NineByNine);
             engine.Place(0, GameCellState.Cross);
             engine.Place(2, GameCellState.Cross);
             engine.Place(6, GameCellState.Cross);

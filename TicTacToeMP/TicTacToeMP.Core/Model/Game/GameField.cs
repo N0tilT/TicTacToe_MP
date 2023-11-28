@@ -58,8 +58,8 @@ namespace TicTacToeMP.Core.Model.Game
                     _winRowLength=5;
                     Generate(Size*Size);
                     break;
-                case LimitedFieldSize.TenByTen:
-                    Size = 10;
+                case LimitedFieldSize.NineByNine:
+                    Size = 9;
                     _winRowLength = 5;
                     Generate(Size * Size);
                     break;

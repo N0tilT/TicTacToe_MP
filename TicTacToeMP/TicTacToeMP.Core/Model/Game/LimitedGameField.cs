@@ -10,7 +10,7 @@ namespace TicTacToeMP.Core.Model.Game
     {
         ThreeByThree,
         FiveByFive,
-        TenByTen
+        NineByNine
     }
     public class LimitedGameField : GameField
     {

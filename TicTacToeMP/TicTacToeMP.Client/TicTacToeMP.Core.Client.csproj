@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TicTacToeMP.Core\TicTacToeMP.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Resources\Fonts\Handjet-Regular.ttf">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>

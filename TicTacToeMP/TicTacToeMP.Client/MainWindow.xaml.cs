@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TicTacToeMP.Core.Client.ViewModel;
 
 namespace TicTacToeMP.Client
 {
@@ -20,8 +21,10 @@ namespace TicTacToeMP.Client
     /// </summary>
     public partial class MainWindow : Window
     {
+        GameViewModel viewModel = new GameViewModel();
         public MainWindow()
         {
+            DataContext = viewModel;
             InitializeComponent();
         }
     }

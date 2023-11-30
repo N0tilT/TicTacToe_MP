@@ -38,6 +38,10 @@ namespace TicTacToeMP.Core.Model.Game
             _neighbours = neighbours;
         }
 
+        public GameCell()
+        {
+        }
+
         public void SetCross()
         {
             State = GameCellState.Cross;

@@ -19,100 +19,42 @@
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch">
             <Border
+                Background="{StaticResource PoleBack}"
                 BorderBrush="{StaticResource Border}"
                 BorderThickness="3"
-                CornerRadius="6" />
+                CornerRadius="6">
+                <ItemsControl ItemsSource="{Binding Cells}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="{Binding FieldSize}" Rows="{Binding FieldSize}" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Command="{Binding CellClickedCommand}">
+                                <Border BorderBrush="{StaticResource Border}" BorderThickness="3">
+                                    <Rectangle Name="CellImage" Fill="Transparent" />
+                                </Border>
+                                <Button.Template>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <ContentPresenter />
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding Cell.State}" Value="Cross">
+                                    <Setter TargetName="CellImage" Property="Fill" Value="{StaticResource Kuromi}" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Cell.State}" Value="Nought">
+                                    <Setter TargetName="CellImage" Property="Fill" Value="{StaticResource Melody}" />
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Border>
         </Grid>
-        <Grid
-            Width="515.625"
-            Height="515.625"
-            Margin="192,85,192,18"
-            HorizontalAlignment="Stretch"
-            Background="{StaticResource PoleBack}">
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
 
-            <Button Grid.Row="0" Grid.Column="0">
-                <Border BorderBrush="{StaticResource Border}" BorderThickness="3" />
-                <Button.Template>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <ContentPresenter />
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
-            <Button Grid.Row="0" Grid.Column="1">
-                <Border BorderBrush="{StaticResource Border}" BorderThickness="3" />
-                <Button.Template>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <ContentPresenter />
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
-            <Button Grid.Row="0" Grid.Column="2">
-                <Border BorderBrush="{StaticResource Border}" BorderThickness="3" />
-                <Button.Template>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <ContentPresenter />
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
-            <Button Grid.Row="1" Grid.Column="0">
-                <Border BorderBrush="{StaticResource Border}" BorderThickness="3" />
-                <Button.Template>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <ContentPresenter />
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
-            <Button Grid.Row="1" Grid.Column="1">
-                <Border BorderBrush="{StaticResource Border}" BorderThickness="3" />
-                <Button.Template>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <ContentPresenter />
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
-            <Button Grid.Row="1" Grid.Column="2">
-                <Border BorderBrush="{StaticResource Border}" BorderThickness="3" />
-                <Button.Template>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <ContentPresenter />
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
-            <Button Grid.Row="2" Grid.Column="0">
-                <Border BorderBrush="{StaticResource Border}" BorderThickness="3" />
-                <Button.Template>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <ContentPresenter />
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
-            <Button Grid.Row="2" Grid.Column="1">
-                <Border BorderBrush="{StaticResource Border}" BorderThickness="3" />
-                <Button.Template>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <ContentPresenter />
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
-            <Button Grid.Row="2" Grid.Column="2">
-                <Border BorderBrush="{StaticResource Border}" BorderThickness="3" />
-                <Button.Template>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <ContentPresenter />
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
-        </Grid>
         <Rectangle
             Width="137.5"
             Height="137.5"

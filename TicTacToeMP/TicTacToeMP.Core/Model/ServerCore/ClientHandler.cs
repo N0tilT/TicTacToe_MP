@@ -79,15 +79,25 @@ namespace TicTacToeMP.Core.Model.ServerCore
         private void ProcessLobbyConnection(MeowPacket packet)
         {
             var lobbyConnection = MeowPacketConverter.Deserialize<MeowPacketLobbyConnect>(packet);
+            var player = JsonSerializer.Deserialize<Player>(lobbyConnection.Player);
             foreach (var lobby in Lobbies) 
             {
                 if (!lobby.isFull())
                 {
                     Lobby = lobby;
-                    var player = JsonSerializer.Deserialize<Player>(lobbyConnection.Player);
                     lobby.Join(player, this);
                     return;
                 }
+            }
+            Lobbies.Add(new Lobby(GameMode.Limited));
+            Lobbies[Lobbies.Count - 1].Join(player, this);
+            Lobby = Lobbies[Lobbies.Count - 1];
+            if(Lobby.PlayerOne.Name == player.Name)
+            {
+                Lobby.PlayerOneClient.QueuePacketSend(MeowPacketConverter.Serialize(MeowPacketType.LobbyConnectionResponse, new MeowPacketLobbyConnectionResponse
+                {
+                    Response = JsonSerializer.Serialize(Lobby.PlayerOneSide),
+                }).ToPacket());
             }
         }
 

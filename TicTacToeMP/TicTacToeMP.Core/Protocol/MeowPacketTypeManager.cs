@@ -23,7 +23,7 @@ namespace TicTacToeMP.Core.Protocol
             RegisterType(MeowPacketType.Turn, 2, 0);
             RegisterType(MeowPacketType.LobbyConnect, 3, 0);
             RegisterType(MeowPacketType.LobbyList, 3, 1);
-            RegisterType(MeowPacketType.Response, 4, 0);
+            RegisterType(MeowPacketType.LobbyConnectionResponse, 4, 0);
         }
 
         /// <summary>

@@ -26,6 +26,7 @@ namespace TicTacToeMP.Core.Client.ViewModel
         private int _fieldSize;
         private static MeowClient _meowClient;
         private Player player;
+        private GameCellState _cellState;
 
         public ObservableCollection<CellViewModel> Cells { get => _cells; set { _cells = value; OnPropertyChanged("Cells"); } }
 
@@ -69,7 +70,7 @@ namespace TicTacToeMP.Core.Client.ViewModel
             Cells = new ObservableCollection<CellViewModel>();
             foreach (var cell in _gameField.Field)
             {
-                Cells.Add(new CellViewModel(cell, GameCellState.Cross,MeowClientInstance, player));
+                Cells.Add(new CellViewModel(cell,_cellState,MeowClientInstance, player));
             }
            
         }
@@ -96,9 +97,18 @@ namespace TicTacToeMP.Core.Client.ViewModel
                 case MeowPacketType.Turn:
                     ProccesIncomingTurn(packet);
                     break;
+                case MeowPacketType.LobbyConnectionResponse:
+                    ProccessResponse(packet);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        private void ProccessResponse(MeowPacket packet)
+        {
+            var response = MeowPacketConverter.Deserialize<MeowPacketLobbyConnectionResponse>(packet);
+            _cellState = JsonSerializer.Deserialize<GameCellState>(response.Response);
         }
 
         private void ProccesIncomingTurn(MeowPacket packet)

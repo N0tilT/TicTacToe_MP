@@ -7,7 +7,7 @@ using TicTacToeMP.Core.Protocol.Serialization;
 
 namespace TicTacToeMP.Core.Protocol
 {
-    public class MeowPacketResponse
+    public class MeowPacketLobbyConnectionResponse
     {
         [MeowField(1)]
         public string Response;

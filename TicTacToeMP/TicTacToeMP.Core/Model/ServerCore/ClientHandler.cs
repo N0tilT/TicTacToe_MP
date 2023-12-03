@@ -99,6 +99,13 @@ namespace TicTacToeMP.Core.Model.ServerCore
                     Response = JsonSerializer.Serialize(Lobby.PlayerOneSide),
                 }).ToPacket());
             }
+            if (Lobby.PlayerTwo.Name == player.Name)
+            {
+                Lobby.PlayerTwoClient.QueuePacketSend(MeowPacketConverter.Serialize(MeowPacketType.LobbyConnectionResponse, new MeowPacketLobbyConnectionResponse
+                {
+                    Response = JsonSerializer.Serialize(Lobby.PlayerTwoSide),
+                }).ToPacket());
+            }
         }
 
         private void ProcessLobbyList(MeowPacket packet)

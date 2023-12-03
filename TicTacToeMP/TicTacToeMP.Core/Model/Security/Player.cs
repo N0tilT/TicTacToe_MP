@@ -15,15 +15,10 @@ namespace TicTacToeMP.Core.Model.Security
         public int Id { get { return _id; } }
         public string Name { get { return _name; } }
 
-        public Player()
+        public Player(string name)
         {
             _id = counter++;
-        }
-
-        public Player(string name) : this()
-        {
             _name = name;
         }
-
     }
 }

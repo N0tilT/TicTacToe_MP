@@ -6,7 +6,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TicTacToeMP.Core.Model.Client
+namespace TicTacToeMP.Core.Model.ServerCore
 {
     public class MeowClient
     {
@@ -32,8 +32,8 @@ namespace TicTacToeMP.Core.Model.Client
             _socket = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
             _socket.Connect(_serverEndPoint);
 
-            Task.Run((Action)RecievePackets);
-            Task.Run((Action)SendPackets);
+            Task.Run(RecievePackets);
+            Task.Run(SendPackets);
         }
 
         public void QueuePacketSend(byte[] packet)

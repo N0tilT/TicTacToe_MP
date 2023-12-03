@@ -3,9 +3,9 @@ using System.Security.Cryptography;
 using System.Text.Json;
 using System.Threading;
 using TicTacToeMP.Core.Model.Game;
+using TicTacToeMP.Core.Model.ServerCore;
 using TicTacToeMP.Core.Protocol;
 using TicTacToeMP.Core.Protocol.Serialization;
-using TicTacToeMP.Core.Model.Client;
 
 namespace TicTacToeMP.Core.Test
 {

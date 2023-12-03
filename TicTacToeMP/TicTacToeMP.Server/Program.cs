@@ -1,5 +1,5 @@
 ﻿using System;
-using TicTacToeMP.Server.Core;
+using TicTacToeMP.Core.Model.ServerCore;
 
 namespace TicTacToeMP.Server
 {

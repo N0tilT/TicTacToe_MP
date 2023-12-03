@@ -6,10 +6,11 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using TicTacToeMP.Core.Client.Core;
-using TicTacToeMP.Core.Model.Client;
 using TicTacToeMP.Core.Model.Game;
 using TicTacToeMP.Core.Protocol.Serialization;
 using TicTacToeMP.Core.Protocol;
+using TicTacToeMP.Core.Model.ServerCore;
+using TicTacToeMP.Core.Model.Security;
 
 namespace TicTacToeMP.Core.Client.ViewModel
 {
@@ -18,6 +19,7 @@ namespace TicTacToeMP.Core.Client.ViewModel
         private GameCell _cell;
         private readonly GameCellState playerSign;
         private readonly MeowClient _meowClient;
+        private Player _player;
 
         public MeowClient MeowClientInstance => _meowClient; 
         public GameCell Cell { get { return _cell; } set { _cell = value; OnPropertyChanged("Cell"); } }
@@ -31,11 +33,12 @@ namespace TicTacToeMP.Core.Client.ViewModel
                 _state = value;
                 OnPropertyChanged("Cell"); } }
 
-        public CellViewModel(GameCell cell, GameCellState playerSign, MeowClient client)
+        public CellViewModel(GameCell cell, GameCellState playerSign, MeowClient client, Player player)
         {
             _cell = cell;
             this.playerSign = playerSign;
             _meowClient = client;
+            _player = player;
         }
 
         public RelayCommand CellClickedCommand => cellClickedCommand ?? (
@@ -49,7 +52,8 @@ namespace TicTacToeMP.Core.Client.ViewModel
                 MeowPacketConverter.Serialize(MeowPacketType.Turn,
                 new MeowPacketTurn
                 {
-                    Player = JsonSerializer.Serialize(new Turn(this.Cell.Index,this.Cell.State))
+                    Player = JsonSerializer.Serialize<Player>(_player),
+                    TurnString = JsonSerializer.Serialize<Turn>(new Turn(this.Cell.Index, this.Cell.State))
                 }).ToPacket());
 
             }));

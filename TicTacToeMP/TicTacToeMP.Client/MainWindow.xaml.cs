@@ -21,11 +21,15 @@ namespace TicTacToeMP.Client
     /// </summary>
     public partial class MainWindow : Window
     {
-        GameViewModel viewModel = new GameViewModel();
         public MainWindow()
         {
-            DataContext = viewModel;
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+            DataContext = new GameViewModel(this.tbPlayername.Text);
         }
     }
 }

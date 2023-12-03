@@ -119,5 +119,20 @@
             VerticalAlignment="Top"
             Content="РАУНД: 1 из 3"
             Style="{StaticResource Text1}" />
+        <TextBox
+            x:Name="tbPlayername"
+            Width="120"
+            Margin="97,172,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Text="TextBox"
+            TextWrapping="Wrap" />
+        <Button
+            Width="120"
+            Margin="97,203,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Click="Button_Click"
+            Content="Button" />
     </Grid>
 </Window>

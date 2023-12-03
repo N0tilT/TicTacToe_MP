@@ -5,13 +5,15 @@ using System.Net.Sockets;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using TicTacToeMP.Core.Model.Game;
 
-namespace TicTacToeMP.Server.Core
+namespace TicTacToeMP.Core.Model.ServerCore
 {
     public class TicTacToeServer
     {
         private readonly Socket _socket;
         private readonly List<ClientHandler> _clients;
+        private List<Lobby> _lobbies;
 
         private bool _listening;
         private bool _stopListening;
@@ -23,6 +25,7 @@ namespace TicTacToeMP.Server.Core
 
             _socket = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
             _clients = new List<ClientHandler>();
+            _lobbies = new List<Lobby>() { new Lobby(GameMode.Limited)};
         }
 
         public void Start()
@@ -68,8 +71,8 @@ namespace TicTacToeMP.Server.Core
                 catch { return; }
 
                 Console.WriteLine($"[!] Accepted client from {(IPEndPoint)client.RemoteEndPoint}");
-
-                var c = new ClientHandler(client);
+                
+                var c = new ClientHandler(client, _lobbies);
                 _clients.Add(c);
             }
         }

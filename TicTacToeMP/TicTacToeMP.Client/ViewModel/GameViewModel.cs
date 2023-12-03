@@ -13,6 +13,8 @@ using TicTacToeMP.Core.Protocol.Serialization;
 using TicTacToeMP.Core.Protocol;
 using TicTacToeMP.Core.Model.Security;
 using System.Text.Json;
+using System.Threading;
+using TicTacToeMP.Core.Model.ServerCore;
 
 namespace TicTacToeMP.Core.Client.ViewModel
 {
@@ -32,14 +34,12 @@ namespace TicTacToeMP.Core.Client.ViewModel
         public static MeowClient MeowClientInstance { get => _meowClient; set => _meowClient = value; }
         public Player Player { get => player; set => player = value; }
 
-        public GameViewModel()
+        public GameViewModel(string playerName)
         {
-            player = new Player("Player1");
+            player = new Player(playerName);
+
             _gameField = new GameField(LimitedFieldSize.ThreeByThree);
             FieldSize = _gameField.Size;
-
-            Console.Title = "MeowClient";
-            Console.ForegroundColor = ConsoleColor.White;
 
             MeowClientInstance = new MeowClient();
             MeowClientInstance.OnPacketRecieve += OnPacketRecieve;
@@ -48,8 +48,6 @@ namespace TicTacToeMP.Core.Client.ViewModel
             string _handshakeMagic = "QWERTY";
 
             Thread.Sleep(1000);
-
-            Console.WriteLine("Sending meow-meow packet..");
 
             MeowClientInstance.QueuePacketSend(
                 MeowPacketConverter.Serialize(
@@ -71,7 +69,7 @@ namespace TicTacToeMP.Core.Client.ViewModel
             Cells = new ObservableCollection<CellViewModel>();
             foreach (var cell in _gameField.Field)
             {
-                Cells.Add(new CellViewModel(cell, GameCellState.Cross,MeowClientInstance));
+                Cells.Add(new CellViewModel(cell, GameCellState.Cross,MeowClientInstance, player));
             }
            
         }
@@ -114,7 +112,8 @@ namespace TicTacToeMP.Core.Client.ViewModel
                 {
                     if (Cells[i].Cell.Index == turn?.CellIndex)
                     {
-                        Cells[i].Cell.State = turn.CellState;
+                        Cells[i].Cell = new GameCell() { Index = turn.CellIndex, State = turn.CellState};
+                        break;
                     }
                 }
             }

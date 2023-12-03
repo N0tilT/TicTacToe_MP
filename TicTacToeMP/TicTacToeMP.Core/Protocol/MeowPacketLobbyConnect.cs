@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TicTacToeMP.Core.Client.Service
+namespace TicTacToeMP.Core.Protocol
 {
-    internal interface ILobbyRepository
+    internal class MeowPacketLobbyConnect
     {
     }
 }

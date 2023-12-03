@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TicTacToeMP.Core.Protocol.Serialization;
 
-namespace TicTacToeMP.Core.Client.Service
+namespace TicTacToeMP.Core.Model.Game
 {
     public class MeowPacketLobbyConnect 
     {

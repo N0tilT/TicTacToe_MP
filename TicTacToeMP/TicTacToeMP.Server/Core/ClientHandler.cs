@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using TicTacToeMP.Core.Model.Game;
 using TicTacToeMP.Core.Protocol;
 using TicTacToeMP.Core.Protocol.Serialization;
 
@@ -11,13 +12,15 @@ namespace TicTacToeMP.Server.Core
 {
     public class ClientHandler
     {
+        public Lobby Lobby { get; }
         public Socket Client { get; }
 
         private readonly Queue<byte[]> _packetSendingQueue = new Queue<byte[]>();
 
-        public ClientHandler(Socket client)
+        public ClientHandler(Socket client, Lobby lobby)
         {
             Client = client;
+            Lobby = lobby;
 
             Task.Run((Action)ProcessIncomingPackets);
             Task.Run((Action)SendPackets);
@@ -54,11 +57,37 @@ namespace TicTacToeMP.Server.Core
                 case MeowPacketType.Handshake:
                     ProcessHandshake(packet);
                     break;
+                case MeowPacketType.Turn:
+                    ProcessIncomingTurn(packet);
+                    break;
+                case MeowPacketType.LobbyList:
+                    ProcessLobbyList(packet);
+                    break;
+                case MeowPacketType.LobbyConnect:
+                    ProcessLobbyConnection(packet);
+                    break;
                 case MeowPacketType.Unknown:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        private void ProcessLobbyConnection(MeowPacket packet)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void ProcessLobbyList(MeowPacket packet)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void ProcessIncomingTurn(MeowPacket packet)
+        {
+            var turn = MeowPacketConverter.Deserialize<MeowPacketTurn>(packet);
+            Lobby.Game.Place(int.Parse(turn.TurnString),Lobby.PlayerOne.Name == turn.Player ? Lobby.PlayerOneSide : Lobby.PlayerTwoSide);
+
         }
 
         private void ProcessHandshake(MeowPacket packet)

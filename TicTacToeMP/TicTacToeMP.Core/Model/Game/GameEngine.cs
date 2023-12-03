@@ -72,19 +72,19 @@ namespace TicTacToeMP.Core.Model.Game
             }
         }
 
-        public void Place(int id, GameCellState state)
+        public void MakeTurn(Turn turn)
         {
             //if (Field.Field[id].State != GameCellState.Empty)
             //{
             //    throw new ArgumentException();
             //}
-            switch (state)
+            switch (turn.CellState)
             {
                 case GameCellState.Nought:
-                    Field.Field[id].SetNought();
+                    Field.Field[turn.CellIndex].SetNought();
                     break;
                 case GameCellState.Cross:
-                    Field.Field[id].SetCross();
+                    Field.Field[turn.CellIndex].SetCross();
                     break;
             }
         }

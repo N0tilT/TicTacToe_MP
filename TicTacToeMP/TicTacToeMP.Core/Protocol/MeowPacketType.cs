@@ -12,6 +12,10 @@ namespace TicTacToeMP.Core.Protocol
     public enum MeowPacketType
     {
         Unknown,
-        Handshake
+        Handshake,
+        Turn,
+        LobbyConnect,
+        LobbyList,
+        Response
     }
 }

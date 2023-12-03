@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TicTacToeMP.Core.Client.Service
+namespace TicTacToeMP.Core.Model.Game
 {
-    internal interface ILobbyRepository
+    public class Lobby
     {
     }
 }

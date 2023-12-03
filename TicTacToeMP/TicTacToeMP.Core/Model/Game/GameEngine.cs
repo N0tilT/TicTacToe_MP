@@ -15,28 +15,11 @@ namespace TicTacToeMP.Core.Model.Game
     }
     public class GameEngine
     {
-
-        private List<Player> _players;
-        private List<int> _scores;
-        private GameField _gameField;
-        
-        public List<Player> Players { get { return _players; } }
-        public List<int> Scores { get { return _scores; } }
+        private GameField _gameField;   
         public GameField Field { get { return _gameField; } }
 
         public GameEngine()
         {
-            _players = new List<Player>()
-            {
-                new Player("Player 1"),
-                new Player("Player 2"),
-            };
-
-            _scores = new List<int>()
-            {
-                0,0
-            };
-
             _gameField = new GameField();
         }
 
@@ -64,13 +47,6 @@ namespace TicTacToeMP.Core.Model.Game
             }
         }
 
-        public void AddWinPoint(int id)
-        {
-            if(id >= 0 && id < 2)
-            {
-                _scores[id] += 1;
-            }
-        }
 
         public void Place(int id, GameCellState state)
         {
@@ -151,17 +127,6 @@ namespace TicTacToeMP.Core.Model.Game
 
 
         }
-
-        public void SetPlayers(List<Player> players)
-        {
-            if(players.Count != 2)
-            {
-                throw new ArgumentException();
-            }
-
-            _players = players;
-        }
-
 
     }
 }

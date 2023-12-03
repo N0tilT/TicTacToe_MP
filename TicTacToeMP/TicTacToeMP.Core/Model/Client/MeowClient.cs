@@ -6,7 +6,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TicTacToeMP.Core.Test.Client
+namespace TicTacToeMP.Core.Model.Client
 {
     public class MeowClient
     {

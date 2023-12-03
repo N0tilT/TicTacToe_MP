@@ -20,6 +20,9 @@ namespace TicTacToeMP.Core.Protocol
         static MeowPacketTypeManager()
         {
             RegisterType(MeowPacketType.Handshake, 1, 0);
+            RegisterType(MeowPacketType.Turn, 2, 0);
+            RegisterType(MeowPacketType.LobbyConnect, 3, 0);
+            RegisterType(MeowPacketType.LobbyList, 3, 1);
         }
 
         /// <summary>

@@ -67,6 +67,7 @@ namespace TicTacToeMP.Core.Client.ViewModel
                 }).ToPacket());
 
 
+            Thread.Sleep(10000);
             Cells = new ObservableCollection<CellViewModel>();
             foreach (var cell in _gameField.Field)
             {

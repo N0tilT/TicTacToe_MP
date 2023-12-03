@@ -102,6 +102,7 @@ namespace TicTacToeMP.Core.Model.ServerCore
                 {
                     Response = JsonSerializer.Serialize(Lobby.PlayerOneSide),
                 }).ToPacket());
+                return;
             }
             if (Lobby.PlayerTwo.Name == player.Name)
             {
@@ -109,6 +110,7 @@ namespace TicTacToeMP.Core.Model.ServerCore
                 {
                     Response = JsonSerializer.Serialize(Lobby.PlayerTwoSide),
                 }).ToPacket());
+                return;
             }
         }
 

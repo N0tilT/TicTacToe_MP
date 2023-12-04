@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <Resource Include="Resources\background.png" />
+	  <Resource Include="Resources\menu-background.png" />
     <Resource Include="Resources\kuromi_Sign.png" />
     <Resource Include="Resources\melody_Sign.png" />
     <Resource Include="Resources\Fonts\Handjet-Black.ttf">
@@ -45,6 +46,7 @@
     <Resource Include="Resources\Fonts\Handjet-Thin.ttf">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\menu-background.png" />
   </ItemGroup>
 
 </Project>

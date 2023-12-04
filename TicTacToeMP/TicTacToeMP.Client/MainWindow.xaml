@@ -103,11 +103,10 @@
             Margin="212.5,25,556.25,570"
             Style="{StaticResource Melody1}" />
         <Label
-            Margin="254,30,596,0"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Top"
+            Margin="212.5,25,556.25,570"
             Content="СЧЁТ: 0:1"
-            Style="{StaticResource Text1}" />
+            FontSize="40"
+            Style="{StaticResource Text}" />
 
         <Rectangle
             Width="198.125"
@@ -115,24 +114,9 @@
             Margin="532,25,241,570"
             Style="{StaticResource Kuromi1}" />
         <Label
-            Margin="538,30,0,0"
-            VerticalAlignment="Top"
+            Margin="532,25,241,570"
             Content="РАУНД: 1 из 3"
-            Style="{StaticResource Text1}" />
-        <TextBox
-            x:Name="tbPlayername"
-            Width="120"
-            Margin="97,172,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            Text="TextBox"
-            TextWrapping="Wrap" />
-        <Button
-            Width="120"
-            Margin="97,203,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            Click="Button_Click"
-            Content="Button" />
+            FontSize="40"
+            Style="{StaticResource Text}"  />
     </Grid>
 </Window>

@@ -26,10 +26,5 @@ namespace TicTacToeMP.Client
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-            DataContext = new GameViewModel(this.tbPlayername.Text);
-        }
     }
 }

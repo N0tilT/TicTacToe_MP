@@ -3,11 +3,12 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:TicTacToeMP.Client"
-    StartupUri="MainWindow.xaml">
+    StartupUri="Menu.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <FontFamily x:Key="Handjet">pack://application:,,,/resources/fonts/#Handjet</FontFamily>
             <ImageBrush x:Key="MainBack" ImageSource="Resources/background.png" />
+            <ImageBrush x:Key="MenuBack" ImageSource="Resources/menu-background.png" />
             <SolidColorBrush x:Key="PoleBack" Color="#9BB78FB5" />
             <SolidColorBrush x:Key="Border" Color="#FFF" />
             <SolidColorBrush x:Key="KuromiKvadrat" Color="#BE79C9" />
@@ -16,6 +17,8 @@
             <SolidColorBrush x:Key="MelodyKvadrat" Color="#F9A4CF" />
             <SolidColorBrush x:Key="MelodyBorKvadrat" Color="#C67194" />
             <ImageBrush x:Key="Melody" ImageSource="Resources/melody_Sign.png" />
+            <SolidColorBrush x:Key="Menu" Color="#AF9CC9" />
+            <SolidColorBrush x:Key="MenuBor" Color="#7C6DAB" />
             <Style x:Key="BorderPole">
                 <Setter Property="Border.BorderBrush" Value="{StaticResource Border}" />
                 <Setter Property="Border.BorderThickness" Value="3" />
@@ -42,13 +45,31 @@
                 <Setter Property="Label.VerticalAlignment" Value="Center" />
                 <Setter Property="Label.HorizontalAlignment" Value="Center" />
             </Style>
-            <Style x:Key="Text1">
-                <Setter Property="Label.FontFamily" Value="Handjet Square Single" />
-                <Setter Property="Label.FontSize" Value="40" />
+            <Style x:Key="ButtonGame">
+                <Setter Property="Button.Background" Value="{StaticResource Menu}" />
                 <Setter Property="Label.Foreground" Value="#FFF" />
+                <Setter Property="Label.FontFamily" Value="Handjet Square Single" />
                 <Setter Property="Label.FontWeight" Value="Medium" />
-                <Setter Property="Label.VerticalAlignment" Value="Stretch" />
-                <Setter Property="Label.HorizontalAlignment" Value="Stretch" />
+                <Setter Property="Label.FontSize" Value="60" />
+                <Setter Property="Border.BorderBrush" Value="{StaticResource MenuBor}" />
+                <Setter Property="Border.BorderThickness" Value="4" />
+                <Setter Property="Border.CornerRadius" Value="10" />
+            </Style>
+            <Style x:Key="MenuKvadrat">
+                <Setter Property="Rectangle.Fill" Value="{StaticResource Menu}" />
+                <Setter Property="Rectangle.Stroke" Value="{StaticResource MenuBor}" />
+                <Setter Property="Rectangle.RadiusX" Value="3.75" />
+                <Setter Property="Rectangle.RadiusY" Value="3.75" />
+                <Setter Property="Rectangle.StrokeThickness" Value="4" />
+            </Style>
+            <Style x:Key="TextBox">
+                <Setter Property="Label.FontFamily" Value="Handjet Square Single" />
+                <Setter Property="Label.FontWeight" Value="Medium" />
+                <Setter Property="Label.Foreground" Value="#FFF" />
+                <Setter Property="TextBox.VerticalContentAlignment" Value="Center" />
+                <Setter Property="TextBox.Background" Value="Transparent" />
+                <Setter Property="Border.BorderThickness" Value="0" />
+                
             </Style>
         </ResourceDictionary>
     </Application.Resources>

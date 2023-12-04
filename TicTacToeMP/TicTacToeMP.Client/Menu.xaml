@@ -11,7 +11,7 @@
         mc:Ignorable="d">
 
     <Grid>
-        <Frame x:Name="frame" Content="{Binding ElementName=this, Path=NavigationService}" NavigationUIVisibility="Hidden"/>
+        <Frame x:Name="frame"/>
         <Grid Margin="355,330,356,196">
             <Button x:Name="Play" Content="Играть" Height="98" Width="190"
             Style="{StaticResource ButtonGame}" Click="ButtonPlay_Click"/>

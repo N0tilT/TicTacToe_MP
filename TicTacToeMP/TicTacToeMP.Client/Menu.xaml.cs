@@ -22,24 +22,16 @@ namespace TicTacToeMP.Core.Client
     /// </summary>
     public partial class Menu : Window
     {
-        public static readonly DependencyProperty NavigationServiceProperty =
-        DependencyProperty.Register("NavigationService", typeof(NavigationService), typeof(Menu));
-
-        public NavigationService NavigationService
-        {
-            get { return (NavigationService)GetValue(NavigationServiceProperty); }
-            set { SetValue(NavigationServiceProperty, value); }
-        }
         public Menu()
         {
             InitializeComponent();
         }
-
         private void ButtonPlay_Click(object sender, RoutedEventArgs e)
         {
             //DataContext = new GameViewModel(this.tbPlayername.Text);
-            MainWindow mainWindow = new MainWindow();
-            NavigationService.Navigate(mainWindow);
+            GameWindow gameWindow = new GameWindow();
+            gameWindow.Show();
+            Close();
         }
     }
 }

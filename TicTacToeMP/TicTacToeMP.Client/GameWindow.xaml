@@ -1,0 +1,121 @@
+﻿<Window x:Class="TicTacToeMP.Core.Client.GameWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TicTacToeMP.Core.Client"
+        
+        Title="GameWindow"     Background="{StaticResource MainBack}"
+    SizeToContent="WidthAndHeight"
+    WindowStartupLocation="CenterOwner"
+    mc:Ignorable="d">
+
+    <Grid>
+        <Grid
+            Width="521.625"
+            Height="521.625"
+            Margin="189,83,189,16"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch">
+            <Border
+                Background="{StaticResource PoleBack}"
+                BorderBrush="{StaticResource Border}"
+                BorderThickness="3"
+                CornerRadius="6">
+                <ItemsControl ItemsSource="{Binding Cells}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="{Binding FieldSize}" Rows="{Binding FieldSize}" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Command="{Binding CellClickedCommand}">
+                                <Border BorderBrush="{StaticResource Border}" BorderThickness="3">
+                                    <Rectangle Name="CellImage" Fill="Transparent" />
+                                </Border>
+                                <Button.Template>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <ContentPresenter />
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding Cell.State}" Value="Cross">
+                                    <Setter TargetName="CellImage" Property="Fill" Value="{StaticResource Kuromi}" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Cell.State}" Value="Nought">
+                                    <Setter TargetName="CellImage" Property="Fill" Value="{StaticResource Melody}" />
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Border>
+        </Grid>
+
+        <Rectangle
+            Width="137.5"
+            Height="137.5"
+            Margin="27.188,449.375,735,53.125"
+            Style="{StaticResource Kuromi1}" />
+        <Rectangle
+            Width="127"
+            Height="127"
+            Margin="35,459,743,62"
+            Fill="{StaticResource Kuromi}" />
+
+        <Rectangle
+            Width="141.25"
+            Height="48.75"
+            Margin="28,395,736,206"
+            Style="{StaticResource Kuromi1}" />
+        <Label
+            Margin="28,398,736,210"
+            Content="Метка игрока 1:"
+            Style="{StaticResource Text}" />
+
+        <Rectangle
+            Width="137.5"
+            Height="137.5"
+            Margin="734.375,459,28.125,63"
+            Style="{StaticResource Melody1}" />
+        <Rectangle
+            Width="127"
+            Height="127"
+            Margin="734.375,459,28.125,63"
+            Fill="{StaticResource Melody}" />
+
+        <Rectangle
+            Width="141.25"
+            Height="48.75"
+            Margin="770,400,60,211"
+            Style="{StaticResource Melody1}" />
+        <Label
+            Margin="770,400,60,211"
+            Content="Метка игрока 2:"
+            Style="{StaticResource Text}" />
+
+        <Rectangle
+            Width="131.875"
+            Height="65"
+            Margin="212.5,25,556.25,570"
+            Style="{StaticResource Melody1}" />
+        <Label
+            Margin="212.5,25,556.25,570"
+            Content="СЧЁТ: 0:1"
+            FontSize="40"
+            Style="{StaticResource Text}" />
+
+        <Rectangle
+            Width="198.125"
+            Height="65"
+            Margin="532,25,241,570"
+            Style="{StaticResource Kuromi1}" />
+        <Label
+            Margin="532,25,241,570"
+            Content="РАУНД: 1 из 3"
+            FontSize="40"
+            Style="{StaticResource Text}"  />
+    </Grid>
+</Window>

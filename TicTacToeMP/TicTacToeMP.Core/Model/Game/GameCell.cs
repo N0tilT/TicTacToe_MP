@@ -24,7 +24,7 @@ namespace TicTacToeMP.Core.Model.Game
         private int[] _neighbours;
         private int index;
 
-        public int ID { get { return _id; } }
+        public int ID { get { return _id; } set { _id = value; } }
         public GameCellState State { get { return _state; } set { _state = value; } }
         public int[] Neighbours { get { return _neighbours; } }
 

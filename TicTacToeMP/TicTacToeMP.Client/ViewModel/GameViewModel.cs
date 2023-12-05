@@ -60,7 +60,7 @@ namespace TicTacToeMP.Core.Client.ViewModel
 
             MeowClientInstance = new MeowClient();
             MeowClientInstance.OnPacketRecieve += OnPacketRecieve;
-            MeowClientInstance.Connect("127.0.0.1", 4910);
+            MeowClientInstance.Connect("192.168.77.124", 4137);
 
             string _handshakeMagic = "QWERTY";
 
@@ -139,14 +139,7 @@ namespace TicTacToeMP.Core.Client.ViewModel
             var winner = JsonSerializer.Deserialize<Player>(win.Winner);
             if(winner != null) 
             {
-                if (winner.Name == player.Name)
-                {
-                    MessageBox.Show("Победил игрок "+player.Name);
-                }
-                else
-                {
-                    MessageBox.Show("Поражение :(");
-                }
+                MessageBox.Show("Победил игрок " + player.Name);
             }
 
         }
@@ -167,9 +160,9 @@ namespace TicTacToeMP.Core.Client.ViewModel
                 Turn? turn = JsonSerializer.Deserialize<Turn>(turnPacket.TurnString);
                 for (int i = 0; i < Cells.Count; i++)
                 {
-                    if (Cells[i].Cell.ID == turn?.CellIndex)
+                    if (Cells[i].Cell.ID == turn?.CellID)
                     {
-                        Cells[i].Cell = new GameCell() { Index = turn.CellIndex, State = turn.CellState};
+                        Cells[i].Cell = new GameCell() {ID = turn.CellID,Index=turn.CellIndex, State = turn.CellState};
                         break;
                     }
                 }

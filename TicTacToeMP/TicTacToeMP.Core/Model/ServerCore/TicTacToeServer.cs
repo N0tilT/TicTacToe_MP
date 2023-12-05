@@ -35,7 +35,7 @@ namespace TicTacToeMP.Core.Model.ServerCore
                 throw new Exception("Server is already listening incoming requests.");
             }
 
-            _socket.Bind(new IPEndPoint(IPAddress.Any, 4910));
+            _socket.Bind(new IPEndPoint(IPAddress.Any, 4137));
             _socket.Listen(10);
 
             _listening = true;

@@ -56,7 +56,7 @@ namespace TicTacToeMP.Core.Client.ViewModel
                 new MeowPacketTurn
                 {
                     Player = JsonSerializer.Serialize<Player>(_player),
-                    TurnString = JsonSerializer.Serialize<Turn>(new Turn(this.Cell.ID, this.Cell.State))
+                    TurnString = JsonSerializer.Serialize<Turn>(new Turn(this.Cell.ID, this.Cell.Index, this.Cell.State))
                 }).ToPacket());
 
             }));

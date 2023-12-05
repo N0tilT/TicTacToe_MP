@@ -68,12 +68,12 @@ namespace TicTacToeMP.Core.Test
             {
                 Console.WriteLine("Failed");
             }
-            engine.MakeTurn(new Turn(2, 0, GameCellState.Cross)); 
+            engine.MakeTurn(new Turn(2, 2, GameCellState.Cross)); 
             if (engine.IsWinSignPlaced(2))
             {
                 Console.WriteLine("Failed");
             }
-            engine.MakeTurn(new Turn(6, 0, GameCellState.Cross)); 
+            engine.MakeTurn(new Turn(6, 6, GameCellState.Cross)); 
             Console.WriteLine("6,0,2:");
             if (engine.IsWinSignPlaced(6) && engine.IsWinSignPlaced(0) && engine.IsWinSignPlaced(2))
             {
@@ -84,8 +84,8 @@ namespace TicTacToeMP.Core.Test
                 Console.WriteLine("failed");
             }
             engine.MakeTurn(new Turn(0, 0, GameCellState.Nought));
-            engine.MakeTurn(new Turn(1, 0, GameCellState.Nought));
-            engine.MakeTurn(new Turn(5, 0, GameCellState.Nought));
+            engine.MakeTurn(new Turn(1, 1, GameCellState.Nought));
+            engine.MakeTurn(new Turn(5, 5, GameCellState.Nought));
             Console.WriteLine("5,0,1:");
             if (engine.IsWinSignPlaced(5) && engine.IsWinSignPlaced(0) && engine.IsWinSignPlaced(1))
             {
@@ -96,8 +96,8 @@ namespace TicTacToeMP.Core.Test
                 Console.WriteLine("failed");
             }
             engine.MakeTurn(new Turn(0, 0, GameCellState.Nought));
-            engine.MakeTurn(new Turn(3, 0, GameCellState.Nought));
-            engine.MakeTurn(new Turn(7, 0, GameCellState.Nought));
+            engine.MakeTurn(new Turn(3, 3, GameCellState.Nought));
+            engine.MakeTurn(new Turn(7, 7, GameCellState.Nought));
             Console.WriteLine("7,0,3:");
             if (engine.IsWinSignPlaced(7) && engine.IsWinSignPlaced(0) && engine.IsWinSignPlaced(3))
             {
@@ -108,8 +108,8 @@ namespace TicTacToeMP.Core.Test
                 Console.WriteLine("failed");
             }
             engine.MakeTurn(new Turn(0, 0, GameCellState.Cross));
-            engine.MakeTurn(new Turn(4, 0, GameCellState.Cross));
-            engine.MakeTurn(new Turn(8, 0, GameCellState.Cross));
+            engine.MakeTurn(new Turn(4, 4, GameCellState.Cross));
+            engine.MakeTurn(new Turn(8, 8, GameCellState.Cross));
 
             Console.WriteLine("8,0,4:");
             if (engine.IsWinSignPlaced(8) && engine.IsWinSignPlaced(0) && engine.IsWinSignPlaced(4))
@@ -123,12 +123,57 @@ namespace TicTacToeMP.Core.Test
 
             engine.Field.Clear();
 
-            engine.MakeTurn(new Turn(4, 0, GameCellState.Cross));
-            engine.MakeTurn(new Turn(6, 0, GameCellState.Cross));
-            engine.MakeTurn(new Turn(5, 0, GameCellState.Cross));
+            engine.MakeTurn(new Turn(4, 4, GameCellState.Cross));
+            engine.MakeTurn(new Turn(6, 6, GameCellState.Cross));
+            engine.MakeTurn(new Turn(5, 5, GameCellState.Cross));
 
             Console.WriteLine("6,5,4:");
             if (engine.IsWinSignPlaced(4) && engine.IsWinSignPlaced(6) && engine.IsWinSignPlaced(5))
+            {
+                Console.WriteLine("passed");
+            }
+            else
+            {
+                Console.WriteLine("failed");
+            }
+            engine.Field.Clear();
+
+            engine.MakeTurn(new Turn(8, 6, GameCellState.Cross));
+            engine.MakeTurn(new Turn(1, 7, GameCellState.Cross));
+            engine.MakeTurn(new Turn(2, 8, GameCellState.Cross));
+
+            Console.WriteLine("8,7,6:");
+            if (engine.IsWinSignPlaced(6) && engine.IsWinSignPlaced(7) && engine.IsWinSignPlaced(8))
+            {
+                Console.WriteLine("passed");
+            }
+            else
+            {
+                Console.WriteLine("failed");
+            }
+            engine.Field.Clear();
+
+            engine.MakeTurn(new Turn(8, 4, GameCellState.Cross));
+            engine.MakeTurn(new Turn(1, 3, GameCellState.Cross));
+            engine.MakeTurn(new Turn(2, 2, GameCellState.Cross));
+
+            Console.WriteLine("4,3,2:");
+            if (engine.IsWinSignPlaced(4) && engine.IsWinSignPlaced(3) && engine.IsWinSignPlaced(2))
+            {
+                Console.WriteLine("passed");
+            }
+            else
+            {
+                Console.WriteLine("failed");
+            }
+            engine.Field.Clear();
+
+            engine.MakeTurn(new Turn(8, 8, GameCellState.Cross));
+            engine.MakeTurn(new Turn(1, 1, GameCellState.Cross));
+            engine.MakeTurn(new Turn(2, 2, GameCellState.Cross));
+
+            Console.WriteLine("8,1,2:");
+            if (engine.IsWinSignPlaced(8) && engine.IsWinSignPlaced(1) && engine.IsWinSignPlaced(2))
             {
                 Console.WriteLine("passed");
             }

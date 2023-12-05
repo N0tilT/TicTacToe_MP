@@ -139,7 +139,7 @@ namespace TicTacToeMP.Core.Client.ViewModel
             var winner = JsonSerializer.Deserialize<Player>(win.Winner);
             if(winner != null) 
             {
-                MessageBox.Show("Победил игрок " + player.Name);
+                MessageBox.Show("Победил игрок " + winner.Name);
             }
 
         }
@@ -160,6 +160,7 @@ namespace TicTacToeMP.Core.Client.ViewModel
                 Turn? turn = JsonSerializer.Deserialize<Turn>(turnPacket.TurnString);
                 for (int i = 0; i < Cells.Count; i++)
                 {
+                    Cells[i].CanPlace = true;
                     if (Cells[i].Cell.ID == turn?.CellID)
                     {
                         Cells[i].Cell = new GameCell() {ID = turn.CellID,Index=turn.CellIndex, State = turn.CellState};

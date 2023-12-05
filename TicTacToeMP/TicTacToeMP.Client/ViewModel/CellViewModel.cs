@@ -21,6 +21,7 @@ namespace TicTacToeMP.Core.Client.ViewModel
         private readonly GameCellState playerSign;
         private readonly MeowClient _meowClient;
         private Player _player;
+        private bool _canPlace;
 
         public MeowClient MeowClientInstance => _meowClient; 
         public GameCell Cell { get { return _cell; } set { _cell = value; OnPropertyChanged("Cell"); } }
@@ -45,21 +46,26 @@ namespace TicTacToeMP.Core.Client.ViewModel
         public RelayCommand CellClickedCommand => cellClickedCommand ?? (
             cellClickedCommand = new RelayCommand(obj =>
             {
-                Cell.State = State == playerSign ? GameCellState.Empty : playerSign;
-
-                State = Cell.State;
-
-                Thread.Sleep(1000);
-
-                MeowClientInstance.QueuePacketSend(
-                MeowPacketConverter.Serialize(MeowPacketType.Turn,
-                new MeowPacketTurn
+                if(CanPlace)
                 {
-                    Player = JsonSerializer.Serialize<Player>(_player),
-                    TurnString = JsonSerializer.Serialize<Turn>(new Turn(this.Cell.ID, this.Cell.Index, this.Cell.State))
-                }).ToPacket());
+                    Cell.State = State == playerSign ? GameCellState.Empty : playerSign;
 
+                    State = Cell.State;
+
+                    Thread.Sleep(1000);
+
+                    MeowClientInstance.QueuePacketSend(
+                    MeowPacketConverter.Serialize(MeowPacketType.Turn,
+                    new MeowPacketTurn
+                    {
+                        Player = JsonSerializer.Serialize<Player>(_player),
+                        TurnString = JsonSerializer.Serialize<Turn>(new Turn(this.Cell.ID, this.Cell.Index, this.Cell.State))
+                    }).ToPacket());
+                    CanPlace = false;
+
+                }
             }));
 
+        public bool CanPlace { get => _canPlace; set => _canPlace = value; }
     }
 }

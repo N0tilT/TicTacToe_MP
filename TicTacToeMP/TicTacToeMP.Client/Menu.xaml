@@ -14,7 +14,7 @@
         <Frame x:Name="frame"/>
         <Grid Margin="355,330,356,196">
             <Button x:Name="Play" Content="Играть" Height="98" Width="190"
-            Style="{StaticResource ButtonGame}" Click="ButtonPlay_Click"/>
+            Style="{DynamicResource ButtonPlay}" Click="ButtonPlay_Click"/>
         </Grid>
 
         <Grid Margin="218.5,190,218.5,336">

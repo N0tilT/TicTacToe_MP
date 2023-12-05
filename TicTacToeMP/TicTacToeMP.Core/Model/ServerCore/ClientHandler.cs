@@ -123,16 +123,37 @@ namespace TicTacToeMP.Core.Model.ServerCore
         {
             var turn = MeowPacketConverter.Deserialize<MeowPacketTurn>(packet);
             var player = JsonSerializer.Deserialize<Player>(turn.Player);
+            var turnString = JsonSerializer.Deserialize<Turn>(turn.TurnString);
+
+            GameCell cell = Lobby.Game.Field.Field.Find(x => x.Index == turnString.CellIndex);
+
+            Lobby.Game.MakeTurn(new Turn(cell.Index,turnString.CellState));
+
+
+            if (Lobby.Game.IsWinSignPlaced(cell.Index))
+            {
+                if (Lobby.PlayerOne.Name == player.Name)
+                {
+                    Lobby.PlayerTwoClient.QueuePacketSend(MeowPacketConverter.Serialize(MeowPacketType.Win, new MeowPacketWin()
+                    {
+                        Winner = JsonSerializer.Serialize<Player>(Lobby.PlayerOne)
+                    }).ToPacket());
+                }
+                else if (Lobby.PlayerTwo.Name == player.Name)
+                {
+                    Lobby.PlayerOneClient.QueuePacketSend(MeowPacketConverter.Serialize(MeowPacketType.Win, new MeowPacketWin()
+                    {
+                        Winner = JsonSerializer.Serialize<Player>(Lobby.PlayerTwo)
+                    }).ToPacket());
+                }
+            }
+
             if (Lobby.PlayerOne.Name == player.Name)
             {
-                Lobby.Game.MakeTurn(JsonSerializer.Deserialize<Turn>(turn.TurnString));
-  
                 Lobby.PlayerTwoClient.QueuePacketSend(MeowPacketConverter.Serialize(MeowPacketType.Turn, turn).ToPacket());
-
             }
             else if(Lobby.PlayerTwo.Name == player.Name)
             {
-                Lobby.Game.MakeTurn(JsonSerializer.Deserialize<Turn>(turn.TurnString));
                 Lobby.PlayerOneClient.QueuePacketSend(MeowPacketConverter.Serialize(MeowPacketType.Turn, turn).ToPacket());
             }
 

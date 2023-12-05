@@ -28,8 +28,7 @@ namespace TicTacToeMP.Core.Client
         }
         private void ButtonPlay_Click(object sender, RoutedEventArgs e)
         {
-            //DataContext = new GameViewModel(this.tbPlayername.Text);
-            GameWindow gameWindow = new GameWindow();
+            GameWindow gameWindow = new GameWindow(this.tbPlayername.Text);
             gameWindow.Show();
             Close();
         }

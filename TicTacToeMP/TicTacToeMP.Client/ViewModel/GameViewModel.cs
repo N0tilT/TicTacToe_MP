@@ -18,6 +18,22 @@ using TicTacToeMP.Core.Model.ServerCore;
 
 namespace TicTacToeMP.Core.Client.ViewModel
 {
+    public class CellComparer : IComparer<CellViewModel>
+    {
+        public int Compare(CellViewModel op1, CellViewModel op2)
+        {
+            if(op1.Cell.Index > op2.Cell.Index)
+            {
+                return 1;
+            }
+            else if(op1.Cell.Index < op2.Cell.Index)
+            {
+                return -1;
+            }
+            return 0;
+        }
+    }
+
     public class GameViewModel : ObservableObject
     {
 
@@ -67,12 +83,20 @@ namespace TicTacToeMP.Core.Client.ViewModel
                 }).ToPacket());
 
 
-            Thread.Sleep(10000);
-            Cells = new ObservableCollection<CellViewModel>();
+            while(_cellState == GameCellState.Empty)
+            {
+                Thread.Sleep(100);
+            }
+            List<CellViewModel> cells = new List<CellViewModel>();
             foreach (var cell in _gameField.Field)
             {
-                Cells.Add(new CellViewModel(cell,_cellState,MeowClientInstance, player));
+                cells.Add(new CellViewModel(cell, _cellState, MeowClientInstance, player));
             }
+
+            CellComparer cc = new CellComparer();
+            cells.Sort(cc);
+            Cells = new ObservableCollection<CellViewModel>(cells);
+            
            
         }
 
@@ -101,15 +125,37 @@ namespace TicTacToeMP.Core.Client.ViewModel
                 case MeowPacketType.LobbyConnectionResponse:
                     ProccessResponse(packet);
                     break;
+                case MeowPacketType.Win:
+                    ProccessWin(packet);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        private void ProccessWin(MeowPacket packet)
+        {
+            var win = MeowPacketConverter.Deserialize<MeowPacketWin>(packet);
+            var winner = JsonSerializer.Deserialize<Player>(win.Winner);
+            if(winner != null) 
+            {
+                if (winner.Name == player.Name)
+                {
+                    MessageBox.Show("Победил игрок "+player.Name);
+                }
+                else
+                {
+                    MessageBox.Show("Поражение :(");
+                }
+            }
+
         }
 
         private void ProccessResponse(MeowPacket packet)
         {
             var response = MeowPacketConverter.Deserialize<MeowPacketLobbyConnectionResponse>(packet);
             _cellState = JsonSerializer.Deserialize<GameCellState>(response.Response);
+            MessageBox.Show("Connected to lobby");
         }
 
         private void ProccesIncomingTurn(MeowPacket packet)
@@ -121,7 +167,7 @@ namespace TicTacToeMP.Core.Client.ViewModel
                 Turn? turn = JsonSerializer.Deserialize<Turn>(turnPacket.TurnString);
                 for (int i = 0; i < Cells.Count; i++)
                 {
-                    if (Cells[i].Cell.Index == turn?.CellIndex)
+                    if (Cells[i].Cell.ID == turn?.CellIndex)
                     {
                         Cells[i].Cell = new GameCell() { Index = turn.CellIndex, State = turn.CellState};
                         break;

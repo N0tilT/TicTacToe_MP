@@ -21,10 +21,10 @@ namespace TicTacToeMP.Core.Test
 
         private static void TestModel()
         {
-            //TestThreeByThree();
+            TestThreeByThree();
             //TestFiveByFive();
             //TestTenByTen();
-            TestIndex();
+            //TestIndex();
 
         }
 
@@ -64,8 +64,16 @@ namespace TicTacToeMP.Core.Test
             Console.WriteLine("3x3 Test:");
             GameEngine engine = new GameEngine(GameMode.Limited, LimitedFieldSize.ThreeByThree);
             engine.MakeTurn(new Turn(0, GameCellState.Cross));
-            engine.MakeTurn(new Turn(2, GameCellState.Cross));
-            engine.MakeTurn(new Turn(6, GameCellState.Cross));
+            if (engine.IsWinSignPlaced(0))
+            {
+                Console.WriteLine("Failed");
+            }
+            engine.MakeTurn(new Turn(2, GameCellState.Cross)); 
+            if (engine.IsWinSignPlaced(2))
+            {
+                Console.WriteLine("Failed");
+            }
+            engine.MakeTurn(new Turn(6, GameCellState.Cross)); 
             Console.WriteLine("6,0,2:");
             if (engine.IsWinSignPlaced(6) && engine.IsWinSignPlaced(0) && engine.IsWinSignPlaced(2))
             {

@@ -14,7 +14,7 @@
             <SolidColorBrush x:Key="KuromiKvadrat" Color="#BE79C9" />
             <SolidColorBrush x:Key="KuromiBorKvadrat" Color="#804D89" />
             <ImageBrush x:Key="Kuromi" ImageSource="Resources/kuromi_Sign.png" />
-            <SolidColorBrush x:Key="MelodyKvadrat" Color="#F9A4CF" /> 
+            <SolidColorBrush x:Key="MelodyKvadrat" Color="#F9A4CF" />
             <SolidColorBrush x:Key="MelodyBorKvadrat" Color="#C67194" />
             <ImageBrush x:Key="Melody" ImageSource="Resources/melody_Sign.png" />
             <SolidColorBrush x:Key="Menu" Color="#AF9CC9" />
@@ -58,7 +58,7 @@
                 <Setter Property="Border.CornerRadius" Value="10" />
             </Style>
             <Style x:Key="ButtonPlay" TargetType="{x:Type Button}">
-                <Setter Property="Background" Value="{StaticResource Menu}"/>
+                <Setter Property="Background" Value="{StaticResource Menu}" />
                 <Setter Property="Label.FontFamily" Value="Handjet Square Single" />
                 <Setter Property="Label.FontWeight" Value="Medium" />
                 <Setter Property="Label.Foreground" Value="#FFF" />
@@ -66,26 +66,28 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Button}">
-                            <Border CornerRadius="3.75"
-                                    BorderBrush="{StaticResource MenuBor}"
-                                    BorderThickness="4"
-                                    Background="{TemplateBinding Background}">
-                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Border
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{StaticResource MenuBor}"
+                                BorderThickness="4"
+                                CornerRadius="3.75">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                             </Border>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Background" Value="{StaticResource MenuMelody}"/>
+                        <Setter Property="Background" Value="{StaticResource MenuMelody}" />
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="{x:Type Button}">
-                                    <Border CornerRadius="3.75"
-                                     BorderBrush="{StaticResource MenuBorMelody}"
-                                     BorderThickness="4"
-                                     Background="{TemplateBinding Background}">
-                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <Border
+                                        Background="{TemplateBinding Background}"
+                                        BorderBrush="{StaticResource MenuBorMelody}"
+                                        BorderThickness="4"
+                                        CornerRadius="3.75">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                                     </Border>
                                 </ControlTemplate>
                             </Setter.Value>
@@ -107,7 +109,7 @@
                 <Setter Property="TextBox.VerticalContentAlignment" Value="Center" />
                 <Setter Property="TextBox.Background" Value="Transparent" />
                 <Setter Property="Border.BorderThickness" Value="0" />
-                
+
             </Style>
         </ResourceDictionary>
     </Application.Resources>

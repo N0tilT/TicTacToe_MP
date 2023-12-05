@@ -68,13 +68,13 @@ namespace TicTacToeMP.Core.Model.Game
         public bool IsWinSignPlaced(int lastPlacedId)
         {
             int[] neighbours = Field.Field[lastPlacedId].Neighbours;
-            byte sum = 0;
+            byte sum = 1;
             for (int i=0; i< 2; i++)
             {
                 sum += CheckNeighbour(i, lastPlacedId);
                 if(sum < Field.WinRowLength)
                 {
-                    sum += CheckNeighbour(i + 2, lastPlacedId + neighbours[i+2]);
+                    sum += CheckNeighbour(i + 2, lastPlacedId);
                 }
                 if(sum == Field.WinRowLength)
                 {
@@ -113,14 +113,14 @@ namespace TicTacToeMP.Core.Model.Game
                 CheckNeighbourDiagonal(i, neighbour+diagonalNeighbour, 
                 neighbour + diagonalNeighbour + Field.Field[neighbour + diagonalNeighbour].Neighbours[i]));
         }
-
+        
         private byte CheckNeighbour(int i, int current)
         {
             if(current >= Field.Field.Count) return 0;
-            if (current + Field.Field[current].Neighbours[i] >= Field.Field.Count) { return 1; }
+            if (current + Field.Field[current].Neighbours[i] >= Field.Field.Count) { return 0; }
             if (Field.Field[current].State != Field.Field[current + Field.Field[current].Neighbours[i]].State)
             {
-                return 1;
+                return 0;
             }
 
             return (byte)(1 + CheckNeighbour(i, current + Field.Field[current].Neighbours[i]));

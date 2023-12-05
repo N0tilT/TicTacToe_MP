@@ -11,6 +11,7 @@ using TicTacToeMP.Core.Protocol.Serialization;
 using TicTacToeMP.Core.Protocol;
 using TicTacToeMP.Core.Model.ServerCore;
 using TicTacToeMP.Core.Model.Security;
+using System.Windows;
 
 namespace TicTacToeMP.Core.Client.ViewModel
 {
@@ -48,12 +49,14 @@ namespace TicTacToeMP.Core.Client.ViewModel
 
                 State = Cell.State;
 
+                Thread.Sleep(1000);
+
                 MeowClientInstance.QueuePacketSend(
                 MeowPacketConverter.Serialize(MeowPacketType.Turn,
                 new MeowPacketTurn
                 {
                     Player = JsonSerializer.Serialize<Player>(_player),
-                    TurnString = JsonSerializer.Serialize<Turn>(new Turn(this.Cell.Index, this.Cell.State))
+                    TurnString = JsonSerializer.Serialize<Turn>(new Turn(this.Cell.ID, this.Cell.State))
                 }).ToPacket());
 
             }));

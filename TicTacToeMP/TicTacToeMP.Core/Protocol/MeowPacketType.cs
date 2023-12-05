@@ -16,6 +16,7 @@ namespace TicTacToeMP.Core.Protocol
         Turn,
         LobbyConnect,
         LobbyList,
-        LobbyConnectionResponse
+        LobbyConnectionResponse,
+        Win
     }
 }

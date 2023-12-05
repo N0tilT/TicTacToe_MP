@@ -4,20 +4,20 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TicTacToeMP.Core.Client"
-        Title="Menu"
+        Title="Меню"
+        Icon="Resources/kuromi_Sign.png"
         Background="{StaticResource MenuBack}"
         SizeToContent="WidthAndHeight"
-        WindowStartupLocation="CenterOwner"
+        WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
 
     <Grid>
-        <Frame x:Name="frame"/>
-        <Grid Margin="355,330,356,196">
+        <Grid Margin="358,334,357,192">
             <Button x:Name="Play" Content="Играть" Height="98" Width="190"
             Style="{DynamicResource ButtonPlay}" Click="ButtonPlay_Click"/>
         </Grid>
 
-        <Grid Margin="218.5,190,218.5,336">
+        <Grid Margin="218,190,219,336">
             <Rectangle
                 Width="468"
                 Height="98"
@@ -33,14 +33,14 @@
                 <TextBox x:Name="tbPlayername" Text="мявка1" FontSize="50"  Style="{StaticResource TextBox}" TextWrapping="Wrap" MaxLines="12"  />
             </Grid>
         </Grid>
-        
+
         <Rectangle
                 Width="662.5"
                 Height="98"
-                Style="{StaticResource MenuKvadrat}" Margin="119,52,119,474" />
+                Style="{StaticResource MenuKvadrat}" Margin="121,52,121,474" />
         <Label
                 Content="Крестики-нолики: Куроми против Мелоди"
-                Style="{StaticResource Text}" Margin="119,52,119,474" FontSize="45"/>
+                Style="{StaticResource Text}" FontSize="45" Margin="121,52,121,474"/>
 
 
     </Grid>

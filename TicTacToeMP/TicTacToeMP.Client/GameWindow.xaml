@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TicTacToeMP.Core.Client"
         
-        Title="GameWindow"     Background="{StaticResource MainBack}"
+        Title="Крестики-нолики: Куроми против Мелоди"     
+        Background="{StaticResource MainBack}"
+        Icon="Resources/kuromi_Sign.png"
     SizeToContent="WidthAndHeight"
     WindowStartupLocation="CenterOwner"
     mc:Ignorable="d">

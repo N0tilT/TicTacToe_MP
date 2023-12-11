@@ -57,10 +57,10 @@ namespace TicTacToeMP.Core.Model.Game
             switch (turn.CellState)
             {
                 case GameCellState.Nought:
-                    Field.Field[turn.CellIndex].SetNought();
+                    Field.Field[turn.CellID].SetNought();
                     break;
                 case GameCellState.Cross:
-                    Field.Field[turn.CellIndex].SetCross();
+                    Field.Field[turn.CellID].SetCross();
                     break;
             }
         }
@@ -102,16 +102,16 @@ namespace TicTacToeMP.Core.Model.Game
         private byte CheckNeighbourDiagonal(int i, int current, int neighbour)
         {
             if(neighbour >= Field.Field.Count) { return 0; }
-            int diagonalNeighbour = Field.Field[neighbour].Neighbours[i< Field.Field[i].Neighbours.Length -1 ? i + 1:0];
-            if(neighbour + diagonalNeighbour >= Field.Field.Count) { return 1; }
-            if (Field.Field[current].State != Field.Field[neighbour + diagonalNeighbour].State)
+            int diagonalNeighbour = neighbour + Field.Field[neighbour].Neighbours[i< Field.Field[i].Neighbours.Length -1 ? i + 1:0];
+            if(diagonalNeighbour >= Field.Field.Count) { return 0; }
+            if (Field.Field[current].State != Field.Field[diagonalNeighbour].State)
             {
                 return 0;
             }
 
             return (byte)(1 + 
-                CheckNeighbourDiagonal(i, neighbour+diagonalNeighbour, 
-                neighbour + diagonalNeighbour + Field.Field[neighbour + diagonalNeighbour].Neighbours[i]));
+                CheckNeighbourDiagonal(i, diagonalNeighbour, 
+                diagonalNeighbour + Field.Field[diagonalNeighbour].Neighbours[i]));
         }
         
         private byte CheckNeighbour(int i, int current)
@@ -128,5 +128,14 @@ namespace TicTacToeMP.Core.Model.Game
 
         }
 
+        public bool IsFilled()
+        {
+            for (int i = 0; i < Field.Field.Count; i++)
+            {
+                if (Field.Field[i].State == GameCellState.Empty) return false;
+            }
+
+            return true;
+        }
     }
 }

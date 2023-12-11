@@ -25,6 +25,7 @@ namespace TicTacToeMP.Core.Protocol
             RegisterType(MeowPacketType.LobbyList, 3, 1);
             RegisterType(MeowPacketType.LobbyConnectionResponse, 4, 0);
             RegisterType(MeowPacketType.Win, 5, 0);
+            RegisterType(MeowPacketType.Tie, 6, 0);
         }
 
         /// <summary>

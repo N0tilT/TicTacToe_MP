@@ -16,6 +16,7 @@ using System.Text.Json;
 using System.Threading;
 using TicTacToeMP.Core.Model.ServerCore;
 using System.DirectoryServices;
+using System.Reflection;
 
 namespace TicTacToeMP.Core.Client.ViewModel
 {
@@ -47,8 +48,8 @@ namespace TicTacToeMP.Core.Client.ViewModel
         private Player _playerCross;
         private Player _playerNought;
         private GameCellState _cellState;
-        private int _playerOneScore = 0;
-        private int _playerTwoScore = 0;
+        private int _playerCrossScore = 0;
+        private int _playerNoughtScore = 0;
         private int _roundCounter = 1;
 
         public ObservableCollection<CellViewModel> Cells { get => _cells; set { _cells = value; OnPropertyChanged("Cells"); } }
@@ -59,8 +60,8 @@ namespace TicTacToeMP.Core.Client.ViewModel
         public Player PlayerCross { get => _playerCross; set { _playerCross = value; OnPropertyChanged("PlayerCross"); } }
         public Player PlayerNought { get => _playerNought; set { _playerNought = value; OnPropertyChanged("PlayerNought"); } }
 
-        public int PlayerOneScore { get => _playerOneScore; set { _playerOneScore = value;OnPropertyChanged("PlayerOneScore"); } }
-        public int PlayerTwoScore { get => _playerTwoScore; set { _playerTwoScore = value; OnPropertyChanged("PlayerTwoScore"); } }
+        public int PlayerCrossScore { get => _playerCrossScore; set { _playerCrossScore = value;OnPropertyChanged("PlayerCrossScore"); } }
+        public int PlayerNoughtScore { get => _playerNoughtScore; set { _playerNoughtScore = value; OnPropertyChanged("PlayerNoughtScore"); } }
         public int RoundCounter { get => _roundCounter; set { _roundCounter = value; OnPropertyChanged("RoundCounter"); } }
 
         public GameViewModel(string playerName, string socket)
@@ -111,8 +112,8 @@ namespace TicTacToeMP.Core.Client.ViewModel
 
             RefreshField();
 
-            PlayerOneScore = 0;
-            PlayerTwoScore = 0;
+            PlayerCrossScore = 0;
+            PlayerNoughtScore = 0;
             RoundCounter = 1;
 
         }
@@ -145,9 +146,56 @@ namespace TicTacToeMP.Core.Client.ViewModel
                 case MeowPacketType.Win:
                     ProccessWin(packet);
                     break;
+                case MeowPacketType.Tie:
+                    ProcessTie(packet);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        private void ProcessTie(MeowPacket packet)
+        {
+            if (RoundCounter + 1 == 4)
+            {
+                if (PlayerCrossScore > PlayerNoughtScore)
+                {
+                    if (_cellState == GameCellState.Cross)
+                    {
+                        MessageBox.Show("Игра окончена! Победa." + ".\n Сыграем ещё.", "Победа!", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Игра окончена! Поражение." + ".\nСыграем ещё.", "Поражение.", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+                    }
+                }
+                else if (PlayerCrossScore < PlayerNoughtScore)
+                {
+                    if (_cellState != GameCellState.Nought)
+                    {
+                        MessageBox.Show("Игра окончена! Победa." + ".\n Сыграем ещё.", "Победа!", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Игра окончена! Поражение." + ".\nСыграем ещё.", "Поражение.", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Игра окончена! Ничья." + ".\n Сыграем ещё.", "Ничья!", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+                }
+
+                RoundCounter = 1;
+                PlayerCrossScore = 0;
+                PlayerNoughtScore = 0;
+            }
+            else
+            {
+                RoundCounter++;
+                MessageBox.Show("Ничья.", "Ничья!", MessageBoxButton.OK);
+            }
+
+            RefreshField();
         }
 
         private void ProccessWin(MeowPacket packet)
@@ -158,24 +206,53 @@ namespace TicTacToeMP.Core.Client.ViewModel
 
             if (winner.Name == _player.Name)
             {
-                PlayerOneScore++;
+                PlayerCrossScore++;
             }
             else
             {
-                PlayerTwoScore++;
+                PlayerNoughtScore++;
             }
-            RoundCounter++;
 
-            if (RoundCounter == 4)
+            if (RoundCounter + 1 == 4)
             {
-                MessageBox.Show("Игра окончена! Победу одержал(а) " + winner.Name + ".\n Сыграем ещё.","Победа!",MessageBoxButton.OK,MessageBoxImage.Asterisk);
-                RoundCounter = 0;
-                PlayerOneScore = 0;
-                PlayerTwoScore = 0;
+                if (PlayerCrossScore > PlayerNoughtScore)
+                {
+                    if (_cellState == GameCellState.Cross)
+                    {
+                        MessageBox.Show("Игра окончена! Победa." + ".\n Сыграем ещё.", "Победа!", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Игра окончена! Поражение." + ".\nСыграем ещё.", "Поражение.", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+                    }
+                }
+                else
+                {
+                    if (_cellState != GameCellState.Nought)
+                    {
+                        MessageBox.Show("Игра окончена! Победa." + ".\n Сыграем ещё.", "Победа!", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Игра окончена! Поражение." + ".\nСыграем ещё.", "Поражение.", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+                    }
+                }
+
+                RoundCounter = 1;
+                PlayerCrossScore = 0;
+                PlayerNoughtScore = 0;
             }
             else
             {
-                MessageBox.Show("Победу в раунде одержал(а) " + winner.Name,"Победа!",MessageBoxButton.OK);
+                RoundCounter++;
+                if (winner.Name == _player.Name)
+                {
+                    MessageBox.Show("Победa. ", "Победа!", MessageBoxButton.OK);
+                }
+                else
+                {
+                    MessageBox.Show("Поражение. ", "Поражение!", MessageBoxButton.OK);
+                }
             }
 
             RefreshField();
@@ -251,7 +328,7 @@ namespace TicTacToeMP.Core.Client.ViewModel
 
             if (handshake.MagicHandshakeString == "QWERTY  MEOW")
             {
-                MessageBox.Show("Handshake meowful!");
+                MessageBox.Show("Подключение успешно! Нажмите \"OK\" и ожидайте подключения второго игрока");
             }
         }
 

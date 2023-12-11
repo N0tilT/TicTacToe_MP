@@ -198,6 +198,26 @@ namespace TicTacToeMP.Core.Test
             {
                 Console.WriteLine("failed");
             }
+            engine.Field.Clear();
+
+            engine.MakeTurn(new Turn(2, 0, GameCellState.Nought));
+            engine.MakeTurn(new Turn(8, 1, GameCellState.Nought));
+            engine.MakeTurn(new Turn(1, 2, GameCellState.Nought));
+            engine.MakeTurn(new Turn(2, 5, GameCellState.Cross));
+            engine.MakeTurn(new Turn(2, 6, GameCellState.Cross));
+            engine.MakeTurn(new Turn(2, 7, GameCellState.Cross));
+            engine.MakeTurn(new Turn(2, 8, GameCellState.Cross));
+
+            Console.WriteLine("0,1,3,7,2:");
+            if (
+                engine.IsWinSignPlaced(6))
+            {
+                Console.WriteLine("passed");
+            }
+            else
+            {
+                Console.WriteLine("failed");
+            }
         }
         #endregion
         #region 5x5

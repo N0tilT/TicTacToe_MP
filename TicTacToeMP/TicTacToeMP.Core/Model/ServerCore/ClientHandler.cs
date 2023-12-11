@@ -138,7 +138,16 @@ namespace TicTacToeMP.Core.Model.ServerCore
             var player = JsonSerializer.Deserialize<Player>(turn.Player);
             var turnString = JsonSerializer.Deserialize<Turn>(turn.TurnString);
 
-            Lobby.Game.MakeTurn(new Turn(turnString.CellID,turnString.CellIndex,turnString.CellState));
+            int currentId = 0;
+            for (int i = 0; i < Lobby.Game.Field.Field.Count; i++)
+            {
+                if (Lobby.Game.Field.Field[i].Index == turnString.CellIndex)
+                {
+                    currentId = i;
+                }
+            }
+
+            Lobby.Game.MakeTurn(new Turn(currentId,turnString.CellIndex,turnString.CellState));
 
             Console.WriteLine($"Player {player.Name} make turn {turnString.CellIndex} - {turnString.CellState}");
             Console.WriteLine("Sending turn packets...");
@@ -152,7 +161,8 @@ namespace TicTacToeMP.Core.Model.ServerCore
                 Lobby.PlayerOneClient.QueuePacketSend(MeowPacketConverter.Serialize(MeowPacketType.Turn, turn).ToPacket());
             }
 
-            if (Lobby.Game.IsWinSignPlaced(turnString.CellIndex))
+            
+            if (Lobby.Game.IsWinSignPlaced(currentId))
             {
                 Console.WriteLine($"Player {player.Name} won!");
                 Console.WriteLine("Sending win packets...");
@@ -164,6 +174,23 @@ namespace TicTacToeMP.Core.Model.ServerCore
                 Lobby.PlayerOneClient.QueuePacketSend(MeowPacketConverter.Serialize(MeowPacketType.Win, new MeowPacketWin()
                 {
                     Winner = JsonSerializer.Serialize<Player>(player)
+                }).ToPacket());
+
+                Lobby.Game.Field.Clear();
+            }
+            else if (Lobby.Game.IsFilled())
+            {
+                Console.WriteLine($"Tie!");
+                Console.WriteLine("Sending tie packets..."); 
+
+                Lobby.PlayerTwoClient.QueuePacketSend(MeowPacketConverter.Serialize(MeowPacketType.Tie, new MeowPacketTie()
+                {
+                    Tie = true
+                }).ToPacket());
+
+                Lobby.PlayerOneClient.QueuePacketSend(MeowPacketConverter.Serialize(MeowPacketType.Tie, new MeowPacketTie()
+                {
+                    Tie = true
                 }).ToPacket());
 
                 Lobby.Game.Field.Clear();

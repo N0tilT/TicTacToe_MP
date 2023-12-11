@@ -59,12 +59,12 @@
                         </Grid.ColumnDefinitions>
                         <Label
                             Grid.Column="0"
-                            Content="{Binding PlayerOneScore}"
+                            Content="{Binding PlayerCrossScore}"
                             FontSize="40"
                             Style="{StaticResource Text}" />
                         <Label
                             Grid.Column="1"
-                            Content="{Binding PlayerTwoScore}"
+                            Content="{Binding PlayerNoughtScore}"
                             FontSize="40"
                             Style="{StaticResource Text}" />
                     </Grid>
@@ -80,7 +80,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100" />
                         <ColumnDefinition />
-                        <ColumnDefinition Width="45"/>
+                        <ColumnDefinition Width="45" />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <Label

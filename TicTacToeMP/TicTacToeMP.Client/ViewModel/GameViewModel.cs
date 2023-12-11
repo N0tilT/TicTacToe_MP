@@ -328,7 +328,7 @@ namespace TicTacToeMP.Core.Client.ViewModel
 
             if (handshake.MagicHandshakeString == "QWERTY  MEOW")
             {
-                MessageBox.Show("Подключение успешно! Нажмите \"OK\" и ожидайте подключения второго игрока");
+                MessageBox.Show("Подключение успешно! Нажмите \"OK\" и ожидайте подключения второго игрока.");
             }
         }
 

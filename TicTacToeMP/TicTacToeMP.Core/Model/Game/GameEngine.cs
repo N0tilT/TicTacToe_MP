@@ -92,7 +92,7 @@ namespace TicTacToeMP.Core.Model.Game
                     return true;
                 }
 
-                sum = 0;
+                sum = 1;
             }
 
 

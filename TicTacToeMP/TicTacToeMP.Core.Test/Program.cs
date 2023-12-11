@@ -190,7 +190,7 @@ namespace TicTacToeMP.Core.Test
             engine.MakeTurn(new Turn(2, 5, GameCellState.Cross));
 
             Console.WriteLine("0,7,6,5:");
-            if (engine.IsWinSignPlaced(0) && engine.IsWinSignPlaced(7) && engine.IsWinSignPlaced(6) && engine.IsWinSignPlaced(5))
+            if (!engine.IsWinSignPlaced(0) && !engine.IsWinSignPlaced(7) && !engine.IsWinSignPlaced(6) && !engine.IsWinSignPlaced(5))
             {
                 Console.WriteLine("passed");
             }

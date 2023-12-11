@@ -59,9 +59,9 @@ namespace TicTacToeMP.Core.Client.ViewModel
         public Player PlayerCross { get => _playerCross; set { _playerCross = value; OnPropertyChanged("PlayerCross"); } }
         public Player PlayerNought { get => _playerNought; set { _playerNought = value; OnPropertyChanged("PlayerNought"); } }
 
-        public int PlayerOneScore { get => _playerOneScore; set => _playerOneScore = value; }
-        public int PlayerTwoScore { get => _playerTwoScore; set => _playerTwoScore = value; }
-        public int RoundCounter { get => _roundCounter; set => _roundCounter = value; }
+        public int PlayerOneScore { get => _playerOneScore; set { _playerOneScore = value;OnPropertyChanged("PlayerOneScore"); } }
+        public int PlayerTwoScore { get => _playerTwoScore; set { _playerTwoScore = value; OnPropertyChanged("PlayerTwoScore"); } }
+        public int RoundCounter { get => _roundCounter; set { _roundCounter = value; OnPropertyChanged("RoundCounter"); } }
 
         public GameViewModel(string playerName, string socket)
         {
@@ -166,7 +166,7 @@ namespace TicTacToeMP.Core.Client.ViewModel
             }
             RoundCounter++;
 
-            if (RoundCounter == 3)
+            if (RoundCounter == 4)
             {
                 MessageBox.Show("Игра окончена! Победу одержал(а) " + winner.Name + ".\n Сыграем ещё.","Победа!",MessageBoxButton.OK,MessageBoxImage.Asterisk);
                 RoundCounter = 0;

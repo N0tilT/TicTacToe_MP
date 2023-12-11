@@ -6,6 +6,8 @@
     xmlns:local="clr-namespace:TicTacToeMP.Core.Client"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Крестики-нолики: Куроми против Мелоди"
+    MinWidth="970"
+    MinHeight="750"
     Background="{StaticResource MainBack}"
     Icon="Resources/kuromi_Sign.png"
     SizeToContent="WidthAndHeight"
@@ -13,12 +15,99 @@
     mc:Ignorable="d">
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition MinHeight="100" />
+            <RowDefinition Height="528.038" />
+            <RowDefinition MaxHeight="150" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="521.625" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
         <Grid
-            Width="521.625"
-            Height="521.625"
-            Margin="189,83,189,16"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch">
+            Grid.Row="0"
+            Grid.Column="1"
+            Height="65"
+            Margin="0,0,0,20"
+            VerticalAlignment="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Rectangle
+                    Width="131.875"
+                    Height="65"
+                    Style="{StaticResource Melody1}" />
+                <Grid Width="131.875" Height="65">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="75" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Label
+                        Grid.Column="0"
+                        Content="СЧЁТ:"
+                        FontSize="40"
+                        Style="{StaticResource Text}" />
+                    <Grid Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Label
+                            Grid.Column="0"
+                            Content="{Binding PlayerOneScore}"
+                            FontSize="40"
+                            Style="{StaticResource Text}" />
+                        <Label
+                            Grid.Column="1"
+                            Content="{Binding PlayerTwoScore}"
+                            FontSize="40"
+                            Style="{StaticResource Text}" />
+                    </Grid>
+
+                </Grid>
+            </Grid>
+            <Grid
+                Grid.Column="1"
+                Width="198.125"
+                Height="65">
+                <Rectangle Style="{StaticResource Kuromi1}" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="45"/>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Label
+                        Grid.Column="0"
+                        Content="РАУНД:"
+                        FontSize="40"
+                        Style="{StaticResource Text}" />
+                    <Label
+                        Grid.Column="1"
+                        Content="{Binding RoundCounter}"
+                        FontSize="40"
+                        Style="{StaticResource Text}" />
+                    <Label
+                        Grid.Column="2"
+                        Content="ИЗ"
+                        FontSize="40"
+                        Style="{StaticResource Text}" />
+                    <Label
+                        Grid.Column="3"
+                        Content="3"
+                        FontSize="40"
+                        Style="{StaticResource Text}" />
+                </Grid>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.Column="1">
             <Border
                 Background="{StaticResource PoleBack}"
                 BorderBrush="{StaticResource Border}"
@@ -56,68 +145,74 @@
             </Border>
         </Grid>
 
-        <Rectangle
-            Width="137.5"
-            Height="137.5"
-            Margin="27.188,449.375,735,53.125"
-            Style="{StaticResource Kuromi1}" />
-        <Rectangle
-            Width="127"
-            Height="127"
-            Margin="35,459,743,62"
-            Fill="{StaticResource Kuromi}" />
+        <Grid
+            Grid.Row="1"
+            Grid.Column="0"
+            Width="141"
+            Height="210"
+            Margin="0,0,31,20"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50" />
+                <RowDefinition Height="160" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Rectangle
+                    Width="141.25"
+                    Height="48.75"
+                    Style="{StaticResource Kuromi1}" />
+                <Label Content="{Binding PlayerCross.Name}" Style="{StaticResource Text}" />
+            </Grid>
 
-        <Rectangle
-            Width="141.25"
-            Height="48.75"
-            Margin="28,395,736,206"
-            Style="{StaticResource Kuromi1}" />
-        <Label
-            Margin="28,398,736,210"
-            Content="{Binding PlayerCross.Name}"
-            Style="{StaticResource Text}" />
+            <Grid Grid.Row="1">
+                <Rectangle
+                    Width="137.5"
+                    Height="137.5"
+                    Style="{StaticResource Kuromi1}" />
+                <Rectangle
+                    Width="127"
+                    Height="127"
+                    Fill="{StaticResource Kuromi}" />
+            </Grid>
 
-        <Rectangle
-            Width="137.5"
-            Height="137.5"
-            Margin="734.375,459,28.125,63"
-            Style="{StaticResource Melody1}" />
-        <Rectangle
-            Width="127"
-            Height="127"
-            Margin="734.375,459,28.125,63"
-            Fill="{StaticResource Melody}" />
+        </Grid>
 
-        <Rectangle
-            Width="141.25"
-            Height="48.75"
-            Margin="770,400,60,211"
-            Style="{StaticResource Melody1}" />
-        <Label
-            Margin="770,400,60,211"
-            Content="{Binding PlayerNought.Name}"
-            Style="{StaticResource Text}" />
 
-        <Rectangle
-            Width="131.875"
-            Height="65"
-            Margin="212.5,25,556.25,570"
-            Style="{StaticResource Melody1}" />
-        <Label
-            Margin="212.5,25,556.25,570"
-            Content="СЧЁТ: 0:1"
-            FontSize="40"
-            Style="{StaticResource Text}" />
+        <Grid
+            Grid.Row="1"
+            Grid.Column="2"
+            Width="141"
+            Height="210"
+            Margin="31,0,0,20"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Bottom">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50" />
+                <RowDefinition Height="160" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Rectangle
+                    Width="141.25"
+                    Height="48.75"
+                    Style="{StaticResource Melody1}" />
+                <Label Content="{Binding PlayerNought.Name}" Style="{StaticResource Text}" />
+            </Grid>
 
-        <Rectangle
-            Width="198.125"
-            Height="65"
-            Margin="532,25,241,570"
-            Style="{StaticResource Kuromi1}" />
-        <Label
-            Margin="532,25,241,570"
-            Content="РАУНД: 1 из 3"
-            FontSize="40"
-            Style="{StaticResource Text}" />
+            <Grid Grid.Row="1">
+                <Rectangle
+                    Grid.Row="1"
+                    Width="137.5"
+                    Height="137.5"
+                    Style="{StaticResource Melody1}" />
+                <Rectangle
+                    Grid.Row="1"
+                    Width="127"
+                    Height="127"
+                    Fill="{StaticResource Melody}" />
+            </Grid>
+        </Grid>
+
+
     </Grid>
 </Window>

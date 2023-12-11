@@ -28,7 +28,7 @@ namespace TicTacToeMP.Core.Client
         }
         private void ButtonPlay_Click(object sender, RoutedEventArgs e)
         {
-            GameWindow gameWindow = new GameWindow(this.tbPlayername.Text);
+            GameWindow gameWindow = new GameWindow(this.tbPlayername.Text,this.tbIP.Text);
             gameWindow.Show();
             Close();
         }

@@ -39,6 +39,8 @@ namespace TicTacToeMP.Core.Model.ServerCore
             _socket.Listen(10);
 
             _listening = true;
+
+            Console.WriteLine($"Server started at: {((IPEndPoint)_socket.LocalEndPoint).Address}:{((IPEndPoint)_socket.LocalEndPoint).Port}");
         }
 
         public void Stop()

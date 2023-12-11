@@ -20,9 +20,9 @@ namespace TicTacToeMP.Core.Client
     /// </summary>
     public partial class GameWindow : Window
     {
-        public GameWindow(string playerName)
+        public GameWindow(string playerName,string ip)
         {
-            DataContext = new GameViewModel(playerName);
+            DataContext = new GameViewModel(playerName,ip);
             InitializeComponent();
         }
     }

@@ -87,7 +87,14 @@ namespace TicTacToeMP.Core.Model.ServerCore
                 {
                     Lobby = lobby;
                     lobby.Join(player, this);
-                    isLobbiesFull = false;
+                    isLobbiesFull = false; 
+
+                    Lobby.PlayerOneClient.QueuePacketSend(MeowPacketConverter.Serialize(MeowPacketType.LobbyConnectionResponse, new MeowPacketLobbyConnectionResponse
+                    {
+                        Response = JsonSerializer.Serialize(Lobby.PlayerOneSide),
+                        PlayerOneString = JsonSerializer.Serialize(Lobby.PlayerOne),
+                        PlayerTwoString = JsonSerializer.Serialize(Lobby.PlayerTwo),
+                    }).ToPacket());
                 }
             }
             if (isLobbiesFull)
@@ -96,12 +103,16 @@ namespace TicTacToeMP.Core.Model.ServerCore
                 Lobbies[Lobbies.Count - 1].Join(player, this);
                 Lobby = Lobbies[Lobbies.Count - 1];
             }
-            if(Lobby.PlayerOne.Name == player.Name)
+            Console.WriteLine($"Player {player.Name} connected");
+            Console.WriteLine("Sending lobby connection packets...");
+            if (Lobby.PlayerOne.Name == player.Name)
             {
                 Lobby.PlayerOneClient.QueuePacketSend(MeowPacketConverter.Serialize(MeowPacketType.LobbyConnectionResponse, new MeowPacketLobbyConnectionResponse
                 {
                     Response = JsonSerializer.Serialize(Lobby.PlayerOneSide),
-                }).ToPacket());
+                    PlayerOneString = JsonSerializer.Serialize(Lobby.PlayerOne),
+                    PlayerTwoString = JsonSerializer.Serialize(Lobby.PlayerTwo),
+                }).ToPacket()) ;
                 return;
             }
             if (Lobby.PlayerTwo.Name == player.Name)
@@ -109,6 +120,8 @@ namespace TicTacToeMP.Core.Model.ServerCore
                 Lobby.PlayerTwoClient.QueuePacketSend(MeowPacketConverter.Serialize(MeowPacketType.LobbyConnectionResponse, new MeowPacketLobbyConnectionResponse
                 {
                     Response = JsonSerializer.Serialize(Lobby.PlayerTwoSide),
+                    PlayerOneString = JsonSerializer.Serialize(Lobby.PlayerOne),
+                    PlayerTwoString = JsonSerializer.Serialize(Lobby.PlayerTwo),
                 }).ToPacket());
                 return;
             }
@@ -127,20 +140,8 @@ namespace TicTacToeMP.Core.Model.ServerCore
 
             Lobby.Game.MakeTurn(new Turn(turnString.CellID,turnString.CellIndex,turnString.CellState));
 
-
-            if (Lobby.Game.IsWinSignPlaced(turnString.CellIndex))
-            {
-                Lobby.PlayerTwoClient.QueuePacketSend(MeowPacketConverter.Serialize(MeowPacketType.Win, new MeowPacketWin()
-                {
-                    Winner = JsonSerializer.Serialize<Player>(player)
-                }).ToPacket());
-                
-                Lobby.PlayerOneClient.QueuePacketSend(MeowPacketConverter.Serialize(MeowPacketType.Win, new MeowPacketWin()
-                {
-                    Winner = JsonSerializer.Serialize<Player>(player)
-                }).ToPacket());
-                
-            }
+            Console.WriteLine($"Player {player.Name} make turn {turnString.CellIndex} - {turnString.CellState}");
+            Console.WriteLine("Sending turn packets...");
 
             if (Lobby.PlayerOne.Name == player.Name)
             {
@@ -149,6 +150,21 @@ namespace TicTacToeMP.Core.Model.ServerCore
             else if(Lobby.PlayerTwo.Name == player.Name)
             {
                 Lobby.PlayerOneClient.QueuePacketSend(MeowPacketConverter.Serialize(MeowPacketType.Turn, turn).ToPacket());
+            }
+
+            if (Lobby.Game.IsWinSignPlaced(turnString.CellIndex))
+            {
+                Console.WriteLine($"Player {player.Name} won!");
+                Console.WriteLine("Sending win packets...");
+                Lobby.PlayerTwoClient.QueuePacketSend(MeowPacketConverter.Serialize(MeowPacketType.Win, new MeowPacketWin()
+                {
+                    Winner = JsonSerializer.Serialize<Player>(player)
+                }).ToPacket());
+
+                Lobby.PlayerOneClient.QueuePacketSend(MeowPacketConverter.Serialize(MeowPacketType.Win, new MeowPacketWin()
+                {
+                    Winner = JsonSerializer.Serialize<Player>(player)
+                }).ToPacket());
             }
 
         }

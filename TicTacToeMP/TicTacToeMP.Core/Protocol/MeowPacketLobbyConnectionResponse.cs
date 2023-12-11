@@ -11,5 +11,11 @@ namespace TicTacToeMP.Core.Protocol
     {
         [MeowField(1)]
         public string Response;
+
+        [MeowField(2)]
+        public string PlayerOneString;
+
+        [MeowField(3)]
+        public string PlayerTwoString;
     }
 }

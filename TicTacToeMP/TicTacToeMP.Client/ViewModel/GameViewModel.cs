@@ -41,7 +41,10 @@ namespace TicTacToeMP.Core.Client.ViewModel
         private GameField _gameField;
         private int _fieldSize;
         private static MeowClient _meowClient;
-        private Player player;
+        private Player _player;
+        private Player _opponent;
+        private Player _playerCross;
+        private Player _playerNought;
         private GameCellState _cellState;
 
         public ObservableCollection<CellViewModel> Cells { get => _cells; set { _cells = value; OnPropertyChanged("Cells"); } }
@@ -49,18 +52,23 @@ namespace TicTacToeMP.Core.Client.ViewModel
         public GameField GameField { get => _gameField; }
         public int FieldSize { get => _fieldSize; set => _fieldSize = value; }
         public static MeowClient MeowClientInstance { get => _meowClient; set => _meowClient = value; }
-        public Player Player { get => player; set => player = value; }
+        public Player PlayerCross { get => _playerCross; set { _playerCross = value; OnPropertyChanged("PlayerCross"); } }
+        public Player PlayerNought { get => _playerNought; set { _playerNought = value; OnPropertyChanged("PlayerNought"); } }
 
-        public GameViewModel(string playerName)
+        public GameViewModel(string playerName, string socket)
         {
-            player = new Player(playerName);
+            _player = new Player(playerName);
 
             _gameField = new GameField(LimitedFieldSize.ThreeByThree);
             FieldSize = _gameField.Size;
 
             MeowClientInstance = new MeowClient();
             MeowClientInstance.OnPacketRecieve += OnPacketRecieve;
-            MeowClientInstance.Connect("192.168.77.124", 4137);
+
+            string ip = socket.Split(':')[0];
+            string port = socket.Split(':')[1];
+
+            MeowClientInstance.Connect(ip, int.Parse(port));
 
             string _handshakeMagic = "QWERTY";
 
@@ -79,7 +87,7 @@ namespace TicTacToeMP.Core.Client.ViewModel
                 MeowPacketConverter.Serialize(MeowPacketType.LobbyConnect,
                 new MeowPacketLobbyConnect
                 {
-                    Player = JsonSerializer.Serialize(this.Player)
+                    Player = JsonSerializer.Serialize(_player)
                 }).ToPacket());
 
 
@@ -90,7 +98,7 @@ namespace TicTacToeMP.Core.Client.ViewModel
             List<CellViewModel> cells = new List<CellViewModel>();
             foreach (var cell in _gameField.Field)
             {
-                cells.Add(new CellViewModel(cell, _cellState, MeowClientInstance, player));
+                cells.Add(new CellViewModel(cell, _cellState, MeowClientInstance, _player));
             }
 
             CellComparer cc = new CellComparer();
@@ -148,7 +156,29 @@ namespace TicTacToeMP.Core.Client.ViewModel
         {
             var response = MeowPacketConverter.Deserialize<MeowPacketLobbyConnectionResponse>(packet);
             _cellState = JsonSerializer.Deserialize<GameCellState>(response.Response);
-            MessageBox.Show("Connected to lobby");
+            var playerOne = JsonSerializer.Deserialize<Player>(response.PlayerOneString);
+            var playerTwo = JsonSerializer.Deserialize<Player>(response.PlayerTwoString);
+
+            if (playerOne.Name == _player.Name)
+            {
+                _opponent = playerTwo;
+            }
+            else
+            {
+                _opponent = playerOne;
+            }
+
+            if(_cellState == GameCellState.Cross)
+            {
+                PlayerCross = _player;
+                PlayerNought = _opponent;
+            }
+            else
+            {
+                PlayerCross = _opponent;
+                PlayerNought = _player;
+            }
+
         }
 
         private void ProccesIncomingTurn(MeowPacket packet)

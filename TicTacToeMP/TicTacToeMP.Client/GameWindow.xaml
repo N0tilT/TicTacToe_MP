@@ -1,13 +1,13 @@
-﻿<Window x:Class="TicTacToeMP.Core.Client.GameWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TicTacToeMP.Core.Client"
-        
-        Title="Крестики-нолики: Куроми против Мелоди"     
-        Background="{StaticResource MainBack}"
-        Icon="Resources/kuromi_Sign.png"
+﻿<Window
+    x:Class="TicTacToeMP.Core.Client.GameWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:TicTacToeMP.Core.Client"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Крестики-нолики: Куроми против Мелоди"
+    Background="{StaticResource MainBack}"
+    Icon="Resources/kuromi_Sign.png"
     SizeToContent="WidthAndHeight"
     WindowStartupLocation="CenterOwner"
     mc:Ignorable="d">
@@ -74,7 +74,7 @@
             Style="{StaticResource Kuromi1}" />
         <Label
             Margin="28,398,736,210"
-            Content="Метка игрока 1:"
+            Content="{Binding PlayerCross.Name}"
             Style="{StaticResource Text}" />
 
         <Rectangle
@@ -95,7 +95,7 @@
             Style="{StaticResource Melody1}" />
         <Label
             Margin="770,400,60,211"
-            Content="Метка игрока 2:"
+            Content="{Binding PlayerNought.Name}"
             Style="{StaticResource Text}" />
 
         <Rectangle
@@ -118,6 +118,6 @@
             Margin="532,25,241,570"
             Content="РАУНД: 1 из 3"
             FontSize="40"
-            Style="{StaticResource Text}"  />
+            Style="{StaticResource Text}" />
     </Grid>
 </Window>

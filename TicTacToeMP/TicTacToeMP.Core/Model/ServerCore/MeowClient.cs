@@ -11,11 +11,14 @@ namespace TicTacToeMP.Core.Model.ServerCore
     public class MeowClient
     {
         public Action<byte[]> OnPacketRecieve { get; set; }
+        public int TurnCounter { get => turnCounter; set => turnCounter = value; }
 
         private readonly Queue<byte[]> _packetSendingQueue = new Queue<byte[]>();
 
         private Socket _socket;
         private IPEndPoint _serverEndPoint;
+
+        private int turnCounter = 0;
 
         public void Connect(string ip, int port)
         {

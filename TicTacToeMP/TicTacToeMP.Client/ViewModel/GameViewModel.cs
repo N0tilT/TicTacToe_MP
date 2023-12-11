@@ -15,6 +15,8 @@ using TicTacToeMP.Core.Model.Security;
 using System.Text.Json;
 using System.Threading;
 using TicTacToeMP.Core.Model.ServerCore;
+using System.Windows.Controls.Primitives;
+using System.DirectoryServices;
 
 namespace TicTacToeMP.Core.Client.ViewModel
 {
@@ -46,6 +48,9 @@ namespace TicTacToeMP.Core.Client.ViewModel
         private Player _playerCross;
         private Player _playerNought;
         private GameCellState _cellState;
+        private int _playerOneScore = 0;
+        private int _playerTwoScore = 0;
+        private int _roundCounter = 1;
 
         public ObservableCollection<CellViewModel> Cells { get => _cells; set { _cells = value; OnPropertyChanged("Cells"); } }
 
@@ -54,6 +59,10 @@ namespace TicTacToeMP.Core.Client.ViewModel
         public static MeowClient MeowClientInstance { get => _meowClient; set => _meowClient = value; }
         public Player PlayerCross { get => _playerCross; set { _playerCross = value; OnPropertyChanged("PlayerCross"); } }
         public Player PlayerNought { get => _playerNought; set { _playerNought = value; OnPropertyChanged("PlayerNought"); } }
+
+        public int PlayerOneScore { get => _playerOneScore; set => _playerOneScore = value; }
+        public int PlayerTwoScore { get => _playerTwoScore; set => _playerTwoScore = value; }
+        public int RoundCounter { get => _roundCounter; set => _roundCounter = value; }
 
         public GameViewModel(string playerName, string socket)
         {
@@ -95,6 +104,12 @@ namespace TicTacToeMP.Core.Client.ViewModel
             {
                 Thread.Sleep(100);
             }
+
+            while(PlayerCross == null || PlayerNought == null)
+            {
+                Thread.Sleep(100);
+            }
+
             List<CellViewModel> cells = new List<CellViewModel>();
             foreach (var cell in _gameField.Field)
             {
@@ -105,7 +120,10 @@ namespace TicTacToeMP.Core.Client.ViewModel
             cells.Sort(cc);
             Cells = new ObservableCollection<CellViewModel>(cells);
             
-           
+            PlayerOneScore = 0;
+            PlayerTwoScore = 0;
+            RoundCounter = 1;
+
         }
 
         private void OnPacketRecieve(byte[] packet)
@@ -150,6 +168,17 @@ namespace TicTacToeMP.Core.Client.ViewModel
                 MessageBox.Show("Победил игрок " + winner.Name);
             }
 
+            List<CellViewModel> cells = new List<CellViewModel>();
+            foreach (var cell in _gameField.Field)
+            {
+                cells.Add(new CellViewModel(cell, _cellState, MeowClientInstance, _player));
+            }
+
+            CellComparer cc = new CellComparer();
+            cells.Sort(cc);
+            Cells = new ObservableCollection<CellViewModel>(cells);
+
+            MeowClientInstance.TurnCounter = 0;
         }
 
         private void ProccessResponse(MeowPacket packet)
@@ -183,6 +212,7 @@ namespace TicTacToeMP.Core.Client.ViewModel
 
         private void ProccesIncomingTurn(MeowPacket packet)
         {
+            MeowClientInstance.TurnCounter++;
             var turnPacket = MeowPacketConverter.Deserialize<MeowPacketTurn>(packet);
 
             if(turnPacket != null)
@@ -190,7 +220,6 @@ namespace TicTacToeMP.Core.Client.ViewModel
                 Turn? turn = JsonSerializer.Deserialize<Turn>(turnPacket.TurnString);
                 for (int i = 0; i < Cells.Count; i++)
                 {
-                    Cells[i].CanPlace = true;
                     if (Cells[i].Cell.ID == turn?.CellID)
                     {
                         Cells[i].Cell = new GameCell() {ID = turn.CellID,Index=turn.CellIndex, State = turn.CellState};

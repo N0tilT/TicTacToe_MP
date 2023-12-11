@@ -15,5 +15,8 @@ namespace TicTacToeMP.Core.Protocol
         [MeowField(2)]
         public string TurnString;
 
+        [MeowField(3)]
+        public int TurnNumber;
+
     }
 }

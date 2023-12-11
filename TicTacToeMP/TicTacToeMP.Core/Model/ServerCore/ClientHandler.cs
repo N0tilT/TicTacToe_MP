@@ -165,6 +165,8 @@ namespace TicTacToeMP.Core.Model.ServerCore
                 {
                     Winner = JsonSerializer.Serialize<Player>(player)
                 }).ToPacket());
+
+                Lobby.Game.Field.Clear();
             }
         }
 

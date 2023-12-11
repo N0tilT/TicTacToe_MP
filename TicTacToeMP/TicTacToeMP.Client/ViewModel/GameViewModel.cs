@@ -15,7 +15,6 @@ using TicTacToeMP.Core.Model.Security;
 using System.Text.Json;
 using System.Threading;
 using TicTacToeMP.Core.Model.ServerCore;
-using System.Windows.Controls.Primitives;
 using System.DirectoryServices;
 
 namespace TicTacToeMP.Core.Client.ViewModel
@@ -110,16 +109,8 @@ namespace TicTacToeMP.Core.Client.ViewModel
                 Thread.Sleep(100);
             }
 
-            List<CellViewModel> cells = new List<CellViewModel>();
-            foreach (var cell in _gameField.Field)
-            {
-                cells.Add(new CellViewModel(cell, _cellState, MeowClientInstance, _player));
-            }
+            RefreshField();
 
-            CellComparer cc = new CellComparer();
-            cells.Sort(cc);
-            Cells = new ObservableCollection<CellViewModel>(cells);
-            
             PlayerOneScore = 0;
             PlayerTwoScore = 0;
             RoundCounter = 1;
@@ -163,11 +154,36 @@ namespace TicTacToeMP.Core.Client.ViewModel
         {
             var win = MeowPacketConverter.Deserialize<MeowPacketWin>(packet);
             var winner = JsonSerializer.Deserialize<Player>(win.Winner);
-            if(winner != null) 
+            
+
+            if (winner.Name == _player.Name)
             {
-                MessageBox.Show("Победил игрок " + winner.Name);
+                PlayerOneScore++;
+            }
+            else
+            {
+                PlayerTwoScore++;
+            }
+            RoundCounter++;
+
+            if (RoundCounter == 3)
+            {
+                MessageBox.Show("Игра окончена! Победу одержал(а) " + winner.Name + ".\n Сыграем ещё.","Победа!",MessageBoxButton.OK,MessageBoxImage.Asterisk);
+                RoundCounter = 0;
+                PlayerOneScore = 0;
+                PlayerTwoScore = 0;
+            }
+            else
+            {
+                MessageBox.Show("Победу в раунде одержал(а) " + winner.Name,"Победа!",MessageBoxButton.OK);
             }
 
+            RefreshField();
+        }
+
+        private void RefreshField()
+        {
+            _gameField = new GameField(LimitedFieldSize.ThreeByThree);
             List<CellViewModel> cells = new List<CellViewModel>();
             foreach (var cell in _gameField.Field)
             {
@@ -177,7 +193,6 @@ namespace TicTacToeMP.Core.Client.ViewModel
             CellComparer cc = new CellComparer();
             cells.Sort(cc);
             Cells = new ObservableCollection<CellViewModel>(cells);
-
             MeowClientInstance.TurnCounter = 0;
         }
 

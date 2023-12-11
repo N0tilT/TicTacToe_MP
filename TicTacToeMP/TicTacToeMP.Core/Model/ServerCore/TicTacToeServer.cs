@@ -6,6 +6,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using TicTacToeMP.Core.Model.Game;
+using System.Net.NetworkInformation;
 
 namespace TicTacToeMP.Core.Model.ServerCore
 {
@@ -40,7 +41,23 @@ namespace TicTacToeMP.Core.Model.ServerCore
 
             _listening = true;
 
-            Console.WriteLine($"Server started at: {((IPEndPoint)_socket.LocalEndPoint).Address}:{((IPEndPoint)_socket.LocalEndPoint).Port}");
+            NetworkInterface[] nics = NetworkInterface.GetAllNetworkInterfaces();
+
+            UnicastIPAddressInformation ip = nics[0].GetIPProperties().UnicastAddresses[0];
+
+            foreach (NetworkInterface adapter in nics)
+            {
+                foreach (var x in adapter.GetIPProperties().UnicastAddresses)
+                {
+                    if (x.Address.AddressFamily == AddressFamily.InterNetwork && x.IsDnsEligible)
+                    {
+                        ip = x;
+                    }
+                }
+            }
+
+            IPEndPoint local = _socket.LocalEndPoint as IPEndPoint;
+            Console.WriteLine($"Server started at: {ip.Address}:{local.Port}"); 
         }
 
         public void Stop()

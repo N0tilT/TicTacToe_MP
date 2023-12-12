@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -26,11 +27,22 @@ namespace TicTacToeMP.Core.Client
         {
             InitializeComponent();
         }
+        private string ip;
+        private string port;
         private void ButtonPlay_Click(object sender, RoutedEventArgs e)
         {
-            GameWindow gameWindow = new GameWindow(this.tbPlayername.Text,this.tbIP.Text);
-            gameWindow.Show();
-            Close();
+            try
+            {
+                IPAddress.Parse(this.tbIP.Text); 
+                GameWindow gameWindow = new GameWindow(this.tbPlayername.Text, this.tbIP.Text);
+                gameWindow.Show();
+                Close();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Неверно введён IP адрес!","Ошибка!",MessageBoxButton.OK,MessageBoxImage.Error);
+            }
+            
         }
     }
 }
